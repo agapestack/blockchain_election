@@ -74,6 +74,7 @@ int main() {
     printf("Message: %s\n", mess);
     printf("Decoded: %s\n\n", decoded);
 
+    // Il est possible que cette assert ne marche pas, on est alors tomber sur un cas ou notre génération probabiliste de nombre premier a échoué, mais dans la pratique avec des nombre premiers suffisamment eleve ce cas est extremement rare!
     assert(strcmp(mess, decoded) == 0);
 
     free(crypted);
