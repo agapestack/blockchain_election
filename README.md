@@ -1,5 +1,9 @@
 # Projet: Blockchain appliquée à un processus éléctoral
 
+## Note aux correcteurs
+
+> Toutes
+
 ## Partie 1
 
 ```bash
