@@ -58,7 +58,7 @@ int main(int argc, char **argv)
     // print_is_prime(last_prime);
 
     // -------------------------------Q3-------------------------------
-    // Complexité Θ(m)
+    // Complexité Θ(m) car on a 2 opérations élémentaires (modulo et multiplication) m fois (la puissance)
 
     // printf("%lx\n", modpow_naive(2, 10, 255));
     assert(modpow_naive(2, 10, 255) == 4);
@@ -71,7 +71,7 @@ int main(int argc, char **argv)
     assert(modpow_naive(12, 5, 2) == 0);
 
     // -------------------------------Q4-------------------------------
-    // Complexité Ο(log(m))
+    // Complexité Ο(log(m)) car on divise par deux la puissance à chaque appel récursif
     // printf("%d\n", modpow(2, 0, 255));
     assert(modpow(2, 10, 255) == 4);
     assert(modpow(5, 10, 56) == 9);

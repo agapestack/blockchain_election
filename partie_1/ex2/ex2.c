@@ -50,7 +50,7 @@ int main() {
   long *crypted = encrypt(mess, s, n);
   
   printf("Message: %s\n", mess);
-  // print_long_vector(crypted, len);
+  print_long_vector(crypted, len);
 
   // Dechiffrement
   char* decoded = decrypt(crypted, len, u, n);
@@ -72,6 +72,7 @@ int main() {
     decoded = decrypt(crypted, len, u, n);
 
     printf("Message: %s\n", mess);
+    print_long_vector(crypted, len);
     printf("Decoded: %s\n\n", decoded);
 
     // Il est possible que cette assert ne marche pas, on est alors tomber sur un cas ou notre génération probabiliste de nombre premier a échoué, mais dans la pratique avec des nombre premiers suffisamment eleve ce cas est extremement rare!
