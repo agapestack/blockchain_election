@@ -65,7 +65,7 @@ long random_prime_number(int low_size, int up_size, int k) {
   // au cas ou on veut dépasser la capacité d'un long sur 32bits on quitte avant
   if(up_size > 32) {
     printf("Entiers sur plus de 32 bits non implémenté dans ce projet\n");
-    exit(1);
+    exit(14);
   }
 
   long min = pow(2, low_size - 1);

@@ -28,6 +28,7 @@ set size 0.7, 0.7
 
 ## Partie 5
 
-## Code Erreur 
+## Error code
 
 - 12: Erreur d'allocation dynamique
+- 14: Appel de fonction avec paramètre invalide
