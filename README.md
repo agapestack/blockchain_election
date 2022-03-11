@@ -5,9 +5,11 @@
 ```bash
 cd ./ex1
 gcc ex1.c exponentiation.c miller_rabin.c -lm
+./a.out
 
 cd ./ex2
 gcc ex2.c keys.c ../ex1/exponentiation.c ../ex1/miller_rabin.c -lm
+./a.out
 ```
 
 ### Rappel utilisation gnuplot

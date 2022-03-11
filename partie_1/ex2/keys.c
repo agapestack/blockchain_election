@@ -16,7 +16,6 @@ long extended_gcd(long s, long t, long *u, long *v) {
   long uPrim, vPrim;
   long gcd = extended_gcd(t%s, s, &uPrim, &vPrim);
   *u = vPrim - (t/s)*uPrim;
-  printf("u=%ln\n", u);
   *v = uPrim;
 
   return gcd;
@@ -27,6 +26,7 @@ void generate_key_values(long p, long q, long* n, long *s, long *u) {
   long t = (p - 1) * (q - 1);
   long v;
 
+  // génération de s tel que s < t et pgcd(s, t) = 1
   do {
     *s = rand_long(1, t);
   }while (extended_gcd(*s, t, u, &v) != 1);
@@ -40,10 +40,11 @@ long* encrypt(char* chaine, long s, long n) {
     exit(12);
   }
 
+  // printf("modulo=%ld\n", n);
+
   int i = 0;
   while(chaine[i] != '\0') {
-    printf("%d\t%ld\n", (int)chaine[i], (long)chaine[i]);
-    encrypted[i] = modpow((long) chaine[i], s, n);
+    encrypted[i] = modpow((int) chaine[i], s, n);
     i++;
   }
 
@@ -56,8 +57,11 @@ char* decrypt(long* crypted, int size, long u, long n) {
     exit(12);
   }
 
+  // printf("modulo=%ld\n", n);
+
   for(int i=0; i < size; i++) {
-    decrypted[i] = modpow(crypted[i], u, n) + '0';
+    // printf("modpow crypted = %ld\t", modpow(crypted[i], u, n));
+    decrypted[i] = modpow(crypted[i], u, n);
   }
 
   decrypted[size] = '\0';
