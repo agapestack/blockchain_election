@@ -1,38 +1,77 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "keys_struct.h"
-#include "../../partie_1/ex1/miller_rabin.h"  
+#include "../../partie_1/ex1/miller_rabin.h"
 
-int main(void) {
-  Key *pKey, *sKey, *testKey;
-  long tab[100];
-  Signature *sgn1, *sgn2;
-  pKey = (Key*)malloc(sizeof(Key));
-  sKey = (Key*)malloc(sizeof(Key));
-  testKey = (Key*)malloc(sizeof(Key));
+int main(void)
+{
 
-  if(!pKey || !sKey || !testKey)
-    exit(12);
+  srand(time(NULL));
 
-  init_pair_keys(pKey, sKey, 8, 16);
-  printf("%ld\t%ld\n", pKey->n, pKey->val);
+  Key *pKey = malloc(sizeof(Key));
+  Key *sKey = malloc(sizeof(Key));
+  init_pair_keys(pKey, sKey, 3, 7);
+  printf("pKey: %ld, %ld\n", pKey->val, pKey->n);
+  printf("pKey: %lx, %lx\n", pKey->val, pKey->n);
 
-  printf("%s\n", key_to_str(pKey));
-  testKey = str_to_key(key_to_str(pKey));
-  printf("%s\n", key_to_str(testKey));
+  printf("sKey: %ld, %ld\n", sKey->val, sKey->n);
+  printf("sKey: %lx, %lx\n", sKey->val, sKey->n);
 
-  for(int i=0; i < 100; i++) {
-    tab[i] = rand_long(2, 100000);
+  char *chaine = key_to_str(pKey);
+  printf("key_to_str : %s\n", chaine);
+  Key *k = str_to_key(chaine);
+  printf("str_to_key : %lx, %lx\n", k->val, k->n);
+
+  Key *pKeyC = malloc(sizeof(Key));
+  Key *sKeyC = malloc(sizeof(Key));
+  init_pair_keys(pKeyC, sKeyC, 3, 7);
+
+  // Declaration:
+  char *mess = key_to_str(pKeyC);
+  printf("%s vote pour %s \n", key_to_str(pKey), mess);
+  Signature *sgn = sign(mess, sKey);
+  printf("signature: ");
+  print_long_vector(sgn->content, sgn->size);
+  chaine = signature_to_str(sgn);
+  printf("signature_to_str: %s \n", chaine);
+  sgn = str_to_signature(chaine);
+  printf("str_to_signature: \n");
+  print_long_vector(sgn->content, sgn->size);
+
+  // Testing protected:
+  Protected *pr = init_protected(pKey, mess, sgn);
+  // Verification:
+  if (verify(pr))
+  {
+    printf("Signature valide\n");
   }
-  sgn1 = init_signature(tab, 100);
-  printf("%s\n", signature_to_str(sgn1));
-  
+  else
+  {
+    printf("Signature non valide\n");
+  }
+  // OK
+  chaine = protected_to_str(pr);
+  printf("protected_to_str: %s \n", chaine);
+  pr = str_to_protected(chaine);
+  printf("str_to_protected: %s %s %s\n", key_to_str(pr->pKey), pr->declaration_vote, signature_to_str(pr->sgn));
 
-
-  free(testKey);
   free(pKey);
   free(sKey);
+  free(pKeyC);
+  free(sKeyC);
+  free(chaine);
+  free(sgn->content);
+  free(sgn->mess);
+  free(sgn);
+  free(k);
+  free(mess);
+  free(pr->declaration_vote);
+  free(pr->pKey);
+  free(pr->sgn->content);
+  free(pr->sgn->mess);
+  free(pr);
 
   return 0;
 }

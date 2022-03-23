@@ -2,18 +2,23 @@
 #define __KEYS_STRUCT__
 
 typedef struct Key {
+  // 
   long val;
+  // n = p*q
   long n;
 } Key;
 
 typedef struct Signature {
+  // content == message que Bob a chiffré avec sa clé secrète pour pouvoir être authentifier
   long *content;
   int size;
+  // mess == Message que Bob a chiffré avec la clé publique d'Alice
   char *mess;
 } Signature;
 
 typedef struct Protected {
   Key* pKey;
+  // message pas chiffré
   char* declaration_vote;
   Signature *sgn;
 } Protected;
@@ -34,5 +39,6 @@ int verify(Protected* pr);
 char* protected_to_str(Protected *pr);
 Protected* str_to_protected(char* str);
 
+void print_long_vector(long *result, int size);
 
 #endif
