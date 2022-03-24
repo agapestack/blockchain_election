@@ -6,22 +6,8 @@
 
 ## Partie 1
 
-```bash
-cd ./ex1
-gcc ex1.c exponentiation.c miller_rabin.c -lm
-./a.out
-
-cd ./ex2
-gcc ex2.c keys.c ../ex1/exponentiation.c ../ex1/miller_rabin.c -lm
-./a.out
-```
-
 ## Partie 2
 
-```bash
-cd ./ex3
-gcc ex3.c keys_struct.c ../../partie_1/ex1/exponentiation.c ../../partie_1/ex1/miller_rabin.c ../../partie_1/ex2/keys.c -lm
-```
 
 ## Partie 3
 

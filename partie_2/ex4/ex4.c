@@ -28,7 +28,7 @@ void generate_random_data(int nv, int nc)
     pKey_tab[i] = pKey;
     sKey_tab[i] = sKey;
 
-    fprintf(keys, "%d %s %s", i, key_to_str(pKey), key_to_str(sKey));
+    fprintf(keys, "%d %s %s\n", i, key_to_str(pKey), key_to_str(sKey));
   }
 
   for(int i=0; i < nv; i++) {
@@ -48,7 +48,6 @@ int main(void)
 {
 
   srand(time(NULL));
-  printf("test\n");
   generate_random_data(5, 1);
 
   return 0;
