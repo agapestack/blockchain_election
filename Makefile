@@ -26,5 +26,6 @@ clean:
 
 mrproper: clean
 	find . -name "*.bin" -type f -delete
+	find . -name "a.out" -type f -delete
 	rm ./data/*.txt
 
