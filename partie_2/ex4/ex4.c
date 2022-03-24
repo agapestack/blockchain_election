@@ -7,6 +7,11 @@
 
 void generate_random_data(int nv, int nc)
 {
+  if(nc > nv) {
+    printf("Il ne peut pas y avoir plus de candidats que d'electeurs\n");
+    exit(13);
+  }
+
   Key **pKey_tab = (Key**)malloc(sizeof(Key*) * nv);
   Key **sKey_tab = (Key**)malloc(sizeof(Key*) * nv);
   Key **candKey_tab = (Key**)malloc(sizeof(Key*) * nc);
@@ -14,6 +19,7 @@ void generate_random_data(int nv, int nc)
   FILE *keys = fopen("../../data/keys.txt", "w");
   FILE *candidates = fopen("../../data/candidates.txt", "w");
   FILE *declarations = fopen("../../data/declarations.txt", "w");
+  int pKey_candidates[nc];
 
   if(!pKey_tab || !sKey_tab || !candKey_tab || !keys || !candidates || !declarations)
     exit(12);
@@ -29,6 +35,10 @@ void generate_random_data(int nv, int nc)
     sKey_tab[i] = sKey;
 
     fprintf(keys, "%d %s %s\n", i, key_to_str(pKey), key_to_str(sKey));
+  }
+
+  for(int i=0; i < nc; i++) {
+    
   }
 
   for(int i=0; i < nv; i++) {
