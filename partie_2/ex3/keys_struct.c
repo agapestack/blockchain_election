@@ -42,11 +42,15 @@ void init_pair_keys(Key* pKey, Key* sKey, long low_size, long up_size) {
 }
 
 char* key_to_str(Key* key) {
-  char *str = malloc(sizeof(char) * 512);
-  if(!str) 
+  char *buffer = malloc(sizeof(char) * 512);
+  char *str;
+  
+  if(!buffer) 
     exit(12);
 
-  sprintf(str, "(%lx,%lx)", key->val, key->n);
+  sprintf(buffer, "(%lx,%lx)", key->val, key->n);
+  str = strdup(buffer);
+  free(buffer);
 
   return str;
 }

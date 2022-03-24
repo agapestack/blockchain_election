@@ -5,6 +5,15 @@
 #include "../ex3/keys_struct.h"
 #include "../../params.h"
 
+int is_in(int* tab, int val, int size) {
+  for(int i=0; i < size; i++) {
+    if(tab[i] == val)
+      return 1;
+  }
+
+  return 0;
+}
+
 void generate_random_data(int nv, int nc)
 {
   if(nc > nv) {
@@ -16,14 +25,16 @@ void generate_random_data(int nv, int nc)
   Key **sKey_tab = (Key**)malloc(sizeof(Key*) * nv);
   Key **candKey_tab = (Key**)malloc(sizeof(Key*) * nc);
   Key *pKey, *sKey;
+  Signature *signature;
   FILE *keys = fopen("../../data/keys.txt", "w");
   FILE *candidates = fopen("../../data/candidates.txt", "w");
   FILE *declarations = fopen("../../data/declarations.txt", "w");
-  int pKey_candidates[nc];
+  int index_candidates[nc], size = 0, rand_cand, index_choix;
 
   if(!pKey_tab || !sKey_tab || !candKey_tab || !keys || !candidates || !declarations)
     exit(12);
 
+  // Générations de pairs de clés aléatoire qui correspondent aux électeurs + écriture dans le fichier keys.txt
   for(int i=0; i < nv; i++) {
     pKey = (Key*)malloc(sizeof(Key));
     sKey = (Key*)malloc(sizeof(Key));
@@ -34,11 +45,35 @@ void generate_random_data(int nv, int nc)
     pKey_tab[i] = pKey;
     sKey_tab[i] = sKey;
 
-    fprintf(keys, "%d %s %s\n", i, key_to_str(pKey), key_to_str(sKey));
+    fprintf(keys, "%s %s\n", key_to_str(pKey), key_to_str(sKey));
   }
 
-  for(int i=0; i < nc; i++) {
+  // On choisit des nombres aléatoire différent < nv; ces nombres correspondent aux index des candidats tiré au sort dans pKey_tab
+  while(size < nc) {
+    rand_cand = rand() % nv;
     
+    // on retire un nombre tant qu'il n'est pas différent de tout ce tirer auparavent
+    while(is_in(index_candidates, rand_cand, size)) {
+      rand_cand = rand() % nv;
+    }
+
+    index_candidates[size] = rand_cand;
+    size++;
+  }
+
+  // écriture des clés publique des candidats dans declarations.txt
+  for(int i=0; i < nc; i++) {
+    fprintf(candidates, "%s\n", key_to_str(pKey_tab[index_candidates[i]]));
+  }
+
+  // Générations de déclaration signés pour chaque electeur pour un candidat choisis au hasard
+  for(int i=0; i < nv; i++) {
+    index_choix = rand() % nc;
+    signature = sign(key_to_str(pKey_tab[index_choix]), sKey_tab[i]);
+    // declaration == pKey electeur, pKey candidat choisis, signature
+    fprintf(declarations, "%s %s %s\n", key_to_str(pKey_tab[i]), key_to_str(pKey_tab[index_choix]), signature_to_str(signature));
+
+    free(signature);
   }
 
   for(int i=0; i < nv; i++) {
@@ -58,7 +93,7 @@ int main(void)
 {
 
   srand(time(NULL));
-  generate_random_data(5, 1);
+  generate_random_data(NB_KEYS, NB_CANDIDATS);
 
   return 0;
 }
