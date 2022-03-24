@@ -45,14 +45,18 @@ void generate_random_data(int nv, int nc)
     pKey_tab[i] = pKey;
     sKey_tab[i] = sKey;
 
-    fprintf(keys, "%s %s\n", key_to_str(pKey), key_to_str(sKey));
+    char *strP = key_to_str(pKey);
+    char *strS = key_to_str(sKey);
+    fprintf(keys, "%s %s\n", strP, strS);
+    free(strP);
+    free(strS);
   }
 
   // On choisit des nombres aléatoire différent < nv; ces nombres correspondent aux index des candidats tiré au sort dans pKey_tab
   while(size < nc) {
     rand_cand = rand() % nv;
     
-    // on retire un nombre tant qu'il n'est pas différent de tout ce tirer auparavent
+    // on retire un nombre tant qu'il n'est pas différent de tout ceux tirés auparavent
     while(is_in(index_candidates, rand_cand, size)) {
       rand_cand = rand() % nv;
     }
@@ -63,7 +67,9 @@ void generate_random_data(int nv, int nc)
 
   // écriture des clés publique des candidats dans declarations.txt
   for(int i=0; i < nc; i++) {
-    fprintf(candidates, "%s\n", key_to_str(pKey_tab[index_candidates[i]]));
+    char *tmp = key_to_str(pKey_tab[index_candidates[i]]);
+    fprintf(candidates, "%s\n", tmp);
+    free(tmp);
   }
 
   // Générations de déclaration signés pour chaque electeur pour un candidat choisis au hasard
@@ -71,9 +77,16 @@ void generate_random_data(int nv, int nc)
     index_choix = rand() % nc;
     signature = sign(key_to_str(pKey_tab[index_choix]), sKey_tab[i]);
     // declaration == pKey electeur, pKey candidat choisis, signature
-    fprintf(declarations, "%s %s %s\n", key_to_str(pKey_tab[i]), key_to_str(pKey_tab[index_choix]), signature_to_str(signature));
+    char *str_pKey = key_to_str(pKey_tab[i]);
+    char *str_pKey_cand = key_to_str(pKey_tab[index_choix]);
+    char *str_sign = signature_to_str(signature);
+    fprintf(declarations, "%s %s %s\n", str_pKey, str_pKey_cand, str_sign);
 
-    free(signature);
+    free(str_pKey);
+    free(str_pKey_cand);
+    free(str_sign);
+    
+    free_signature(signature);
   }
 
   for(int i=0; i < nv; i++) {

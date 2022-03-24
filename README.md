@@ -9,17 +9,6 @@ make ex1
 ./run.sh 1
 ```
 
-## Partie 1
-
-## Partie 2
-
-
-## Partie 3
-
-## Partie 4
-
-## Partie 5
-
 ## Rappel utilisation gnuplot
 
 ```bash
@@ -38,9 +27,13 @@ set size 0.7, 0.7
 
 ## TODOS
 
+### Memory Leak
+
 - [x] memory leak ex1
 - [x] memory leak ex2
 - [x] memory leak ex3
 - [ ] memory leak ex4
 - [ ] memory leak ex5
 - [ ] memory leak ex6
+
+### Presentations
