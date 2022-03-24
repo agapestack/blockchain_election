@@ -40,22 +40,22 @@ int main(int argc, char **argv)
     temps_cpu = 0;
     // Trouver le plus grand nombre premier en 2ms
     // on test tous les nombres qui ont un temps d'exécution inferieur à 2ms et si il est premier on le sauvegarde dans last_prime
-    // while(temps_cpu <= 0.002) {
-    //     temps_initial = clock();
-    //     if(is_prime_naive(i) == 1)
-    //         last_prime = i;
-    //         save_time = 1;
-    //     temps_final = clock();
-    //     temps_cpu = ((double)(temps_final - temps_initial)) / CLOCKS_PER_SEC;
-    //     // on sauvegarde le temps associer au dernier nombre premier trouver
-    //     if(save_time == 1) {
-    //         temps_cpu_last_prime = temps_cpu;
-    //         save_time = 0;
-    //     }
-    //     i++;
-    // }
-    // printf("Dernier nombre premier trouver en 2ms par is_prime_naive: %ld\ttemps=%fs\n", last_prime, temps_cpu_last_prime);
-    // print_is_prime(last_prime);
+    while(temps_cpu <= 0.002) {
+        temps_initial = clock();
+        if(is_prime_naive(i) == 1)
+            last_prime = i;
+            save_time = 1;
+        temps_final = clock();
+        temps_cpu = ((double)(temps_final - temps_initial)) / CLOCKS_PER_SEC;
+        // on sauvegarde le temps associer au dernier nombre premier trouver
+        if(save_time == 1) {
+            temps_cpu_last_prime = temps_cpu;
+            save_time = 0;
+        }
+        i++;
+    }
+    printf("Dernier nombre premier trouver en 2ms par is_prime_naive: %ld\ttemps=%fs\n", last_prime, temps_cpu_last_prime);
+    print_is_prime(last_prime);
 
     // -------------------------------Q3-------------------------------
     // Complexité Θ(m) car on a 2 opérations élémentaires (modulo et multiplication) m fois (la puissance)
@@ -94,28 +94,28 @@ int main(int argc, char **argv)
     int mod_alea = rand() % 1024;
 
     // comparaison de modpow et modpow_naive
-    // for (int i = 2; i < NB_TOUR_EXPONENTIATION; i++)
-    // {
-    //     temps_initial = clock();
-    //     for (int j = 0; j < ECART_TOUR_EXPONENTIATION; j++)
-    //     {
-    //         modpow_naive(nb_alea, i, mod_alea);
-    //     }
-    //     temps_final = clock();
-    //     tps_1 = ((double)(temps_final - temps_initial)) / CLOCKS_PER_SEC;
-    //     printf("%f\n", tps_1);
+    for (int i = 2; i < NB_TOUR_EXPONENTIATION; i++)
+    {
+        temps_initial = clock();
+        for (int j = 0; j < ECART_TOUR_EXPONENTIATION; j++)
+        {
+            modpow_naive(nb_alea, i, mod_alea);
+        }
+        temps_final = clock();
+        tps_1 = ((double)(temps_final - temps_initial)) / CLOCKS_PER_SEC;
+        printf("%f\n", tps_1);
 
-    //     temps_initial = clock();
-    //     for (int j = 0; j < ECART_TOUR_EXPONENTIATION; j++)
-    //     {
-    //         modpow(nb_alea, i, mod_alea);
-    //     }
-    //     temps_final = clock();
-    //     tps_2 = ((double)(temps_final - temps_initial)) / CLOCKS_PER_SEC;
-    //     printf("%f\n", tps_2);
+        temps_initial = clock();
+        for (int j = 0; j < ECART_TOUR_EXPONENTIATION; j++)
+        {
+            modpow(nb_alea, i, mod_alea);
+        }
+        temps_final = clock();
+        tps_2 = ((double)(temps_final - temps_initial)) / CLOCKS_PER_SEC;
+        printf("%f\n", tps_2);
 
-    //     fprintf(fic, "%d %f %f\n", i, tps_1, tps_2);
-    // }
+        fprintf(fic, "%d %f %f\n", i, tps_1, tps_2);
+    }
 
     // MILLER RABIN
     // On evite les assert ici car c'est un test de primalite probabiliste, on va donc tirer des nombres supposes pas trop grand pour pouvoir verifier avec is_prime_naive

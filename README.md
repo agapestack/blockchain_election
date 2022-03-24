@@ -2,7 +2,12 @@
 
 ## Note aux correcteurs
 
-> Toutes
+```bash
+# make ex[numero de l'exercice] pour compiler 
+make ex1
+# ./run.sh [numero de l'exercice]
+./run.sh 1
+```
 
 ## Partie 1
 
@@ -30,3 +35,12 @@ set size 0.7, 0.7
 - 12: Erreur d'allocation
 - 13: Erreur argument
 - 14: Appel de fonction avec paramètre invalide
+
+## TODOS
+
+- [x] memory leak ex1
+- [x] memory leak ex2
+- [x] memory leak ex3
+- [ ] memory leak ex4
+- [ ] memory leak ex5
+- [ ] memory leak ex6

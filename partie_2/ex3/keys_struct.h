@@ -23,6 +23,9 @@ typedef struct Protected {
   Signature *sgn;
 } Protected;
 
+void free_signature(Signature *s);
+void free_protected(Protected *p);
+
 void init_key(Key* key, long val, long n);
 void init_pair_keys(Key* pKey, Key* sKey, long low_size, long up_size);
 

@@ -80,8 +80,14 @@ void generate_random_data(int nv, int nc)
     free(pKey_tab[i]);
     free(sKey_tab[i]);
   }
+
+  for(int i=0; i < nc; i++) {
+    free(candKey_tab[i]);
+  }
+  
   free(pKey_tab);
   free(sKey_tab);
+  free(candKey_tab);
 
   fclose(keys);
   fclose(candidates);

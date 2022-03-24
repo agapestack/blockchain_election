@@ -7,15 +7,31 @@
 #include "../../partie_1/ex1/miller_rabin.h"
 #include "../../params.h"
 
+void free_signature(Signature *s) {
+  free(s->content);
+  free(s->mess);
+  free(s);
+  return;
+}
+
+void free_protected(Protected *p) {
+  free(p->declaration_vote);
+  free_signature(p->sgn);
+  free(p->pKey);
+  free(p);
+  return;
+}
+
 void print_long_vector(long *result, int size)
 {
   // printf("Encoded representation : \n");
-  printf ( "Vector : [ " ) ;
-  for ( int i =0; i < size ; i ++) {
-      printf( "%lx ", result[i]);
-      // printf( "%ld \t", result[i]);
+  printf("Vector : [ ");
+  for (int i = 0; i < size; i++)
+  {
+    printf("%lx ", result[i]);
+    // printf( "%ld \t", result[i]);
   }
-  printf ( " ]\n" ) ;
+  printf(" ]\n");
 }
 
 // initialise les valeur d'une clé
@@ -28,7 +44,8 @@ void init_key(Key *key, long val, long n)
 }
 
 // génère un couple de clé
-void init_pair_keys(Key* pKey, Key* sKey, long low_size, long up_size) {
+void init_pair_keys(Key *pKey, Key *sKey, long low_size, long up_size)
+{
   long p = random_prime_number(low_size, up_size, NB_VALIDATION_MILLER);
   long q = random_prime_number(low_size, up_size, NB_VALIDATION_MILLER);
   long n, s, u;
@@ -41,35 +58,33 @@ void init_pair_keys(Key* pKey, Key* sKey, long low_size, long up_size) {
   return;
 }
 
-char* key_to_str(Key* key) {
-  char *buffer = malloc(sizeof(char) * 512);
-  char *str;
-  
-  if(!buffer) 
+char *key_to_str(Key *key)
+{
+  char *buffer = malloc(sizeof(char) * 256);
+  if (!buffer)
     exit(12);
 
   sprintf(buffer, "(%lx,%lx)", key->val, key->n);
-  str = strdup(buffer);
-  free(buffer);
 
-  return str;
+  return buffer;
 }
 
-Key* str_to_key(char* str) {
-  Key *res = (Key*)malloc(sizeof(Key));
-
-  if(!res) 
+Key *str_to_key(char *str)
+{
+  Key *res = (Key *)malloc(sizeof(Key));
+  if (!res)
     exit(12);
 
-  sscanf(str, "(%lx, %lx)", &res->val, &res->n);
+  sscanf(str, "(%lx, %lx)", &res->n, &res->val);
 
   return res;
 }
 
 // content = message chiffré avec sa clé secrète
-Signature* init_signature(long* content, int size) {
-  Signature *res = (Signature*)malloc(sizeof(Signature));
-  if(!res) 
+Signature *init_signature(long *content, int size)
+{
+  Signature *res = (Signature *)malloc(sizeof(Signature));
+  if (!res)
     exit(12);
 
   res->content = content;
@@ -78,10 +93,11 @@ Signature* init_signature(long* content, int size) {
   return res;
 }
 
-Signature* sign(char* mess, Key* sKey) {
+Signature *sign(char *mess, Key *sKey)
+{
   Signature *res = init_signature(encrypt(mess, sKey->val, sKey->n), strlen(mess));
   res->mess = mess;
-  
+
   return res;
 }
 
@@ -97,7 +113,7 @@ char *signature_to_str(Signature *sgn)
     for (int j = 0; j < strlen(buffer); j++)
     {
       result[pos] = buffer[j];
-      pos = pos + 1;
+      pos = pos++;
     }
     result[pos] = '#';
     pos = pos + 1;
@@ -135,13 +151,14 @@ Signature *str_to_signature(char *str)
   }
 
   mess = realloc(mess, num * sizeof(long));
-  
+
   return init_signature(mess, num);
 }
 
-Protected* init_protected(Key* pKey, char *mess, Signature* sgn) {
-  Protected *res = (Protected*)malloc(sizeof(Protected));
-  if(!res)
+Protected *init_protected(Key *pKey, char *mess, Signature *sgn)
+{
+  Protected *res = (Protected *)malloc(sizeof(Protected));
+  if (!res)
     exit(12);
 
   res->pKey = pKey;
@@ -149,53 +166,45 @@ Protected* init_protected(Key* pKey, char *mess, Signature* sgn) {
   res->sgn = sgn;
 
   return res;
-} 
-
-int verify(Protected* pr) {
-  char *dechiffre = malloc(sizeof(char) * 256);
-  if(!dechiffre) 
-    exit(12);
-  dechiffre = decrypt(pr->sgn->content, pr->sgn->size, pr->pKey->val, pr->pKey->n);
-  printf("dechiffre: %s\n", dechiffre);
-
-  return strcmp(dechiffre, pr->declaration_vote) == 0;
 }
 
-char* protected_to_str(Protected *pr) {
-  char *res = malloc(sizeof(char) * 512);
-  
-  sprintf(res, "%s %s %s", key_to_str(pr->pKey), pr->declaration_vote, signature_to_str(pr->sgn));
+int verify(Protected *pr)
+{
+  char *dechiffre;
+  int res;
+
+  dechiffre = decrypt(pr->sgn->content, pr->sgn->size, pr->pKey->val, pr->pKey->n);
+  printf("dechiffre: %s\n", dechiffre);
+  res = strcmp(dechiffre, pr->declaration_vote);
+
+  free(dechiffre);
+
+  return res == 0;
+}
+
+char *protected_to_str(Protected *pr)
+{
+  char *res = malloc(sizeof(char) * 256);
+  char *key = key_to_str(pr->pKey);
+  char *sgn = signature_to_str(pr->sgn);
+
+  sprintf(res, "%s %s %s", key, pr->declaration_vote, sgn);
+
+  free(key);
+  free(sgn);
+
   return res;
 }
 
-Protected* str_to_protected(char* str) {
-  int size;
-  Protected *res = (Protected*)malloc(sizeof(Protected));
-  Signature *sign = (Signature*)malloc(sizeof(Signature));
-  Key *key = (Key*)malloc(sizeof(Key));
-  if(!res || !sign || !key)
-    exit(12);
+Protected *str_to_protected(char *str)
+{
+  char *declaration_vote = (char *)malloc(sizeof(char) * 256);
+  char buffer_sgn[512], buffer_pKey[256];
+  sscanf(str, "%s %s %s", buffer_pKey, declaration_vote, buffer_sgn);
 
-  char buffer_sgn[1024], buffer_pKey[256], buffer_mess[256];
-  char *declaration_vote;
-
-  // printf("STR_TO_PROTECTED STRING: %s\n", str);
-
-  sscanf(str, "%s %s %s", buffer_pKey, buffer_mess, buffer_sgn);
-
-  // printf("message: %s\n", buffer_mess);
-  // size = strlen(buffer_mess);
-  // printf("size=%d\n", size);
-  declaration_vote = strdup(buffer_mess);
-  res->declaration_vote = buffer_mess;
-  // printf("declaration de vote: %s\n", res->declaration_vote);
-
-  key = str_to_key(buffer_pKey);
-  sign = str_to_signature(buffer_sgn);
-  res->pKey = key;
-  res->sgn = sign;
-  res->declaration_vote = declaration_vote;
-
+  Signature *sign = str_to_signature(buffer_sgn);
+  Key *pKey = str_to_key(buffer_pKey);
+  Protected *res = init_protected(pKey, declaration_vote, sign);
 
   return res;
 }
