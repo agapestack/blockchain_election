@@ -74,14 +74,13 @@ int main(void)
   printf("protected_to_str: %s \n", temp);
   free(temp);
   // // FUITE 6 BLOCK str_to_protected
-  free_protected(pr);
+  // free_protected(pr);
   pr = str_to_protected(chaine);
-  free_protected(pr);
-  // char *c_tmp1 = key_to_str(pr->pKey);
-  // char *c_tmp2 = signature_to_str(pr->sgn);
-  // printf("str_to_protected: %s %s %s \n", c_tmp1, pr->declaration_vote, c_tmp2);
-  // free(c_tmp2);
-  // free(c_tmp1);
+  char *c_tmp1 = key_to_str(pr->pKey);
+  char *c_tmp2 = signature_to_str(pr->sgn);
+  printf("str_to_protected: %s %s %s \n", c_tmp1, pr->declaration_vote, c_tmp2);
+  free(c_tmp2);
+  free(c_tmp1);
 
   // Beaucoup de fuite à cause de la sérialization/désérialization a DEBUG 
   free_protected(pr);

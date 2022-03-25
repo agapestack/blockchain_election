@@ -8,4 +8,9 @@ typedef struct cellKey {
   struct cellKey* next;
 } CellKey;
 
+CellKey* create_cell_key(Key* key);
+CellKey* ajout_cell_tete(Key* key, CellKey *next);
+
+CellKey* read_public_keys(char* nomfic);
+
 #endif
