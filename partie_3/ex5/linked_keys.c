@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "linked_keys.h"
 
@@ -54,6 +55,8 @@ void print_list_keys(CellKey* c) {
   if(!c)
     return;
 
+  printf("-----PRINT LIST KEYS START-----\n");
+
   char *tmp;
 
   while(c != NULL) {
@@ -62,6 +65,8 @@ void print_list_keys(CellKey* c) {
     c = c->next;
     free(tmp);
   }
+
+  printf("-----PRINT LIST KEYS STOP-----\n\n\n");
 }
 
 void delete_cell_key(CellKey* c) {
@@ -70,7 +75,7 @@ void delete_cell_key(CellKey* c) {
 
   return;
 }
-void free_list_key(CellKey *c) {
+void free_list_keys(CellKey *c) {
   CellKey *tmp;
 
   while(c != NULL) {
@@ -107,20 +112,19 @@ CellProtected* read_declarations(char* nomfic) {
   Protected *pr_tmp;
   Signature *sgn_tmp;
   Key *k_tmp;
-  char buffer[512];
+  char buffer[512], *decla_alloc;
   char pKey[128], declaration[128], sgn[256];
-  int i=0;
 
   if(!fic)
     exit(12);
 
   while(fgets(buffer, 512, fic) != NULL) {
     if(sscanf(buffer, "%s %s %s", pKey, declaration, sgn) == 3) {
-      printf("%d\n", i++);
-      printf("%s %s %s\n", pKey, declaration, sgn);
+      // printf("%s %s %s\n", pKey, declaration, sgn);
       sgn_tmp = str_to_signature(sgn);
       k_tmp = str_to_key(pKey);
-      pr_tmp = init_protected(k_tmp, declaration, sgn_tmp);
+      decla_alloc = strdup(declaration);
+      pr_tmp = init_protected(k_tmp, decla_alloc, sgn_tmp);
       res = inserer_list_protected(pr_tmp, res);
     }
   }
@@ -132,6 +136,8 @@ CellProtected* read_declarations(char* nomfic) {
 void print_list_protected(CellProtected *pr) {
   CellProtected *tmp;
   char *str_sgn, *str_key, *str_declaration;
+
+  printf("-----PRINT LIST PROTECTED START-----\n");
 
   while(pr != NULL) {
     tmp = pr->next;
@@ -146,6 +152,8 @@ void print_list_protected(CellProtected *pr) {
 
     pr = tmp;
   } 
+
+  printf("-----PRINT LIST PROTECTED STOP-----\n");
 }
 
 void delete_cell_protected(CellProtected *pr) {
@@ -161,7 +169,7 @@ void free_cell_protected(CellProtected *pr) {
   while(pr != NULL) {
     tmp = pr->next;
     free(pr->data->pKey);
-    // free(pr->data->declaration_vote);
+    free(pr->data->declaration_vote);
     free(pr->data->sgn->content);
     // free(pr->data->sgn->mess);
     free(pr->data->sgn);

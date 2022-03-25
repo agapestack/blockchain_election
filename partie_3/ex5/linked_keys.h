@@ -20,7 +20,7 @@ CellKey* inserer_cell_tete(Key* key, CellKey *next);
 CellKey* read_public_keys(char* nomfic);
 void print_list_keys(CellKey* c);
 void delete_cell_key(CellKey* c);
-void free_list_key(CellKey *c);
+void free_list_keys(CellKey *c);
 
 CellProtected* inserer_list_protected(Protected *pr, CellProtected *next);
 CellProtected* create_cell_protected(Protected *pr);
