@@ -8,15 +8,16 @@
 #include "../../params.h"
 
 void free_signature(Signature *s) {
-  free(s->content);
-  free(s->mess);
+  // free(s->mess);
+  // free(s->content);
+  
   free(s);
   return;
 }
 
 void free_protected(Protected *p) {
   free(p->declaration_vote);
-  free_signature(p->sgn);
+  // free_signature(p->sgn);
   free(p->pKey);
   free(p);
   return;

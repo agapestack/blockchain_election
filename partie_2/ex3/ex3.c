@@ -27,7 +27,7 @@ int main(void)
   Key *key_tmp;
   printf("key_to_str : %s\n", chaine);
   key_tmp = str_to_key(chaine); 
-  printf("str_to_key : %lx, %lx\n", key_tmp->val, key_tmp->n);
+  printf("str_to_key : %lx, %lx\n", key_tmp->n, key_tmp->val);
   
 
   // //Testing signature
@@ -37,8 +37,7 @@ int main(void)
 
   // // Declaration:
   char* mess = key_to_str(pKeyC);
-  free(mess);
-  mess = key_to_str(pKeyC);
+  // free(mess);
 
   char *char_tmp;
   char_tmp = key_to_str(pKey);
@@ -46,21 +45,19 @@ int main(void)
   
   Signature *sgn = sign(mess, sKey);
 
-  printf("signature: ");
   print_long_vector(sgn->content, sgn->size);
 
   char *tmp = signature_to_str(sgn);
   printf("signature_to_str: %s \n", tmp);
   
-  // // FONCTION STR_TO_SIGNATURE FUITE 16 BYTES A DEBUG
   Signature *sgn2 = str_to_signature(chaine);
   printf("str_to_signature: \n");
   print_long_vector(sgn->content, sgn->size);
   
 
-  // // // Testing protected:
+  // Testing protected:
   Protected *pr = init_protected(pKey, mess, sgn);
-  // // // Verification:
+  // Verification:
   if (verify(pr))
   {
     printf("Signature valide\n");
@@ -73,22 +70,33 @@ int main(void)
   char *temp = protected_to_str(pr);
   printf("protected_to_str: %s \n", temp);
   free(temp);
-  // // FUITE 6 BLOCK str_to_protected
-  // free_protected(pr);
-  pr = str_to_protected(chaine);
-  char *c_tmp1 = key_to_str(pr->pKey);
-  char *c_tmp2 = signature_to_str(pr->sgn);
-  printf("str_to_protected: %s %s %s \n", c_tmp1, pr->declaration_vote, c_tmp2);
-  free(c_tmp2);
-  free(c_tmp1);
 
-  // Beaucoup de fuite à cause de la sérialization/désérialization a DEBUG 
-  free_protected(pr);
-  free(tmp);
+
+  //  TODO MEMORY LEAK HERE
+  // pr = str_to_protected(chaine);
+
+  // char *c_tmp1 = key_to_str(pr->pKey);
+  // char *c_tmp2 = signature_to_str(pr->sgn);
+  // printf("str_to_protected: %s %s %s \n", c_tmp1, pr->declaration_vote, c_tmp2);
+  // free(c_tmp2);
+  // free(c_tmp1);
+
+  // free(pr->sgn->mess);
+  // free(pr->sgn->content);
+  // free(pr->sgn);
+  
+
+  free(pr);
+  free(mess);
+  free(sgn->content);
+  free(sgn);
+  free(sgn2->content);
   free(sgn2);
+  free(tmp);
   free(char_tmp);
   free(key_tmp);
   free(sKey);
+  free(pKey);
   free(chaine);
   free(pKeyC);
   free(sKeyC);
