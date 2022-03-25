@@ -17,7 +17,6 @@ void free_signature(Signature *s)
 
 void free_protected(Protected *p)
 {
-  free(p->declaration_vote);
   free_signature(p->sgn);
   free(p->pKey);
   free(p);
@@ -163,12 +162,13 @@ Protected *init_protected(Key *pKey, char *mess, Signature *sgn)
   return res;
 }
 
+// return 0 si la signature est incorrect, 1 sinon;
 int verify(Protected *pr)
 {
   char *dechiffre;
   int res;
 
-  dechiffre = decrypt(pr->sgn->content, pr->sgn->size, pr->pKey->val, pr->pKey->n);
+  dechiffre = decrypt(pr->sgn->content, pr->sgn->size, pr->pKey->n, pr->pKey->val);
   printf("dechiffre: %s\n", dechiffre);
   res = strcmp(dechiffre, pr->declaration_vote);
 

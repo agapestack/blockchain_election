@@ -54,8 +54,6 @@ int main(void)
   Signature *sgn2 = str_to_signature(tmp);
   printf("str_to_signature: ");
   print_long_vector(sgn2->content, sgn2->size);
-  printf("taille = %d\n", sgn2->size);
-  
 
   // Testing protected:
   Protected *pr = init_protected(pKey, mess, sgn);
