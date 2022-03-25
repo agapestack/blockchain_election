@@ -7,17 +7,18 @@
 #include "../../partie_1/ex1/miller_rabin.h"
 #include "../../params.h"
 
-void free_signature(Signature *s) {
-  // free(s->mess);
-  // free(s->content);
-  
+void free_signature(Signature *s)
+{
+  free(s->mess);
+  free(s->content);
   free(s);
   return;
 }
 
-void free_protected(Protected *p) {
+void free_protected(Protected *p)
+{
   free(p->declaration_vote);
-  // free_signature(p->sgn);
+  free_signature(p->sgn);
   free(p->pKey);
   free(p);
   return;
@@ -104,56 +105,53 @@ Signature *sign(char *mess, Key *sKey)
 
 char *signature_to_str(Signature *sgn)
 {
-  char *result = malloc(10 * sgn->size * sizeof(char));
+  char *result = (char *)malloc(10 * sgn->size * sizeof(char));
   result[0] = '#';
   int pos = 1;
-  char buffer[256];
+  char buffer[156];
   for (int i = 0; i < sgn->size; i++)
   {
     sprintf(buffer, "%lx", sgn->content[i]);
     for (int j = 0; j < strlen(buffer); j++)
     {
       result[pos] = buffer[j];
-      pos = pos++;
+      pos++;
     }
     result[pos] = '#';
-    pos = pos + 1;
+    pos++;
   }
   result[pos] = '\0';
-  result = realloc(result, (pos + 1) * sizeof(char));
+  result = (char *)realloc(result, (pos + 1) * sizeof(char));
   return result;
 }
 
 Signature *str_to_signature(char *str)
 {
   int len = strlen(str);
-  long *mess = (long *)malloc(sizeof(long) * len);
+  long *content = (long *)malloc(sizeof(long) * len);
   int num = 0;
   char buffer[256];
   int pos = 0;
-
   for (int i = 0; i < len; i++)
   {
     if (str[i] != '#')
     {
       buffer[pos] = str[i];
-      pos = pos + 1;
+      pos++;
     }
     else
     {
-      if (pos != 0)
+      if (pos)
       {
         buffer[pos] = '\0';
-        sscanf(buffer, "%lx", &(mess[num]));
-        num = num + 1;
+        sscanf(buffer, "%lx", &(content[num]));
+        num++;
         pos = 0;
       }
     }
   }
-
-  mess = realloc(mess, num * sizeof(long));
-
-  return init_signature(mess, num);
+  content = (long *)realloc(content, num * sizeof(long));
+  return init_signature(content, num);
 }
 
 Protected *init_protected(Key *pKey, char *mess, Signature *sgn)
@@ -206,6 +204,6 @@ Protected *str_to_protected(char *str)
   Signature *sign = str_to_signature(buffer_sgn);
   Key *pKey = str_to_key(buffer_pKey);
   Protected *res = init_protected(pKey, declaration_vote, sign);
-
+  
   return res;
 }
