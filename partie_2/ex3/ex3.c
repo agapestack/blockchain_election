@@ -51,10 +51,10 @@ int main(void)
   printf("tmp = %s\n", tmp);
   printf("signature_to_str: %s \n", tmp);
   
-
-  Signature *sgn2 = str_to_signature(chaine);
-  printf("str_to_signature: \n");
+  Signature *sgn2 = str_to_signature(tmp);
+  printf("str_to_signature: ");
   print_long_vector(sgn2->content, sgn2->size);
+  printf("taille = %d\n", sgn2->size);
   
 
   // Testing protected:
@@ -71,18 +71,24 @@ int main(void)
 
   char *temp = protected_to_str(pr);
   printf("protected_to_str: %s \n", temp);
+
+  // //  TODO MEMORY LEAK HERE 
+  Protected *pr2 = str_to_protected(temp);
+  
+
+  char *c_tmp1 = key_to_str(pr->pKey);
+  char *c_tmp2 = signature_to_str(pr->sgn);
+  printf("str_to_protected: %s %s %s \n", c_tmp1, pr2->declaration_vote, c_tmp2);  
+
+  
+  free(c_tmp1);
+  free(c_tmp2);
+  free(pr2->sgn->content);
+  free(pr2->sgn);
+  free(pr2->declaration_vote);
+  free(pr2->pKey);
+  free(pr2);
   free(temp);
-
-
-  //  TODO MEMORY LEAK HERE 
-  // pr = str_to_protected(chaine);
-
-  // char *c_tmp1 = key_to_str(pr->pKey);
-  // char *c_tmp2 = signature_to_str(pr->sgn);
-  // printf("str_to_protected: %s %s %s \n", c_tmp1, pr->declaration_vote, c_tmp2);  
-  // free(c_tmp1);
-  // free(c_tmp2);
-
   free(pr);
   free(mess);
   free(sgn->content);

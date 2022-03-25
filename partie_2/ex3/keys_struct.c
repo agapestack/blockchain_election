@@ -125,33 +125,29 @@ char *signature_to_str(Signature *sgn)
   return result;
 }
 
-Signature *str_to_signature(char *str)
-{
-  int len = strlen(str);
-  long *content = (long *)malloc(sizeof(long) * len);
-  int num = 0;
-  char buffer[256];
-  int pos = 0;
-  for (int i = 0; i < len; i++)
-  {
-    if (str[i] != '#')
-    {
-      buffer[pos] = str[i];
-      pos++;
+Signature* str_to_signature(char* str){
+    int len = strlen(str);
+    long* content = (long*)malloc(sizeof(long)*len);
+    int num = 0;
+    char buffer[256];
+    int pos = 0;
+    for(int i = 0; i < len; i++){
+        if(str[i] != '#'){
+            buffer[pos] = str[i];
+            pos++;
+        } else{
+            if(pos){
+                buffer[pos] = '\0';
+                sscanf(buffer, "%lx", &(content[num]));
+                num++;
+                pos = 0;
+            }
+        }
     }
-    else
-    {
-      if (pos)
-      {
-        buffer[pos] = '\0';
-        sscanf(buffer, "%lx", &(content[num]));
-        num++;
-        pos = 0;
-      }
-    }
-  }
-  content = (long *)realloc(content, num * sizeof(long));
-  return init_signature(content, num);
+    
+    content = (long*)realloc(content, num*sizeof(long));
+
+    return init_signature(content, num);
 }
 
 Protected *init_protected(Key *pKey, char *mess, Signature *sgn)
@@ -197,13 +193,14 @@ char *protected_to_str(Protected *pr)
 
 Protected *str_to_protected(char *str)
 {
+  char buffer_sgn[256], buffer_pKey[256];
   char *declaration_vote = (char *)malloc(sizeof(char) * 256);
-  char buffer_sgn[512], buffer_pKey[256];
   sscanf(str, "%s %s %s", buffer_pKey, declaration_vote, buffer_sgn);
 
-  Signature *sign = str_to_signature(buffer_sgn);
+  printf("buffer_sgn = %s\n", buffer_sgn);
   Key *pKey = str_to_key(buffer_pKey);
+  Signature *sign = str_to_signature(buffer_sgn);
   Protected *res = init_protected(pKey, declaration_vote, sign);
-  
+
   return res;
 }
