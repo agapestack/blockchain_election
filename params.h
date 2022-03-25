@@ -7,4 +7,8 @@
 #define NB_KEYS 2000
 #define NB_CANDIDATS 12
 
+#define FILE_KEYS "../../data/keys.txt"
+#define FILE_CANDIDATES "../../data/candidates.txt"
+#define FILE_DECLARATIONS "../../data/declarations.txt"
+
 #endif

@@ -27,3 +27,17 @@ if [ "$1" == "4" ]; then
   ./ex4.bin
   cd ../..
 fi
+
+if [ "$1" == "5" ]; then
+  cd ./partie_3/ex5/
+  ./ex5.bin
+  cd ../..
+fi
+
+
+if [ "$1" == "6" ]; then
+  cd ./partie_3/ex6/
+  ./ex6.bin
+  cd ../..
+fi
+

@@ -27,3 +27,16 @@ if [ "$1" == "4" ]; then
   valgrind ./ex4.bin
   cd ../..
 fi
+
+if [ "$1" == "5" ]; then
+  cd ./partie_3/ex5/
+  valgrind ./ex5.bin
+  cd ../..
+fi
+
+
+if [ "$1" == "6" ]; then
+  cd ./partie_3/ex6/
+  valgrind ./ex6.bin
+  cd ../..
+fi

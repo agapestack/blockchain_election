@@ -6,8 +6,11 @@ EX1=./partie_1/ex1
 EX2=./partie_1/ex2
 EX3=./partie_2/ex3
 EX4=./partie_2/ex4
+EX4=./partie_2/ex4
+EX5=./partie_3/ex5
+EX6=./partie_3/ex6
 
-all: ex1 ex2 ex3 
+all: ex1 ex2 ex3 ex4 ex5
 
 ex1: $(EX1)/ex1.c $(EX1)/exponentiation.c $(EX1)/miller_rabin.c
 	$(CC) $^ $(LIBS) -o $(EX1)/ex1.bin
@@ -20,6 +23,9 @@ ex3: $(EX3)/ex3.c $(EX3)/keys_struct.c $(EX1)/exponentiation.c $(EX1)/miller_rab
 
 ex4: $(EX4)/ex4.c $(EX3)/keys_struct.c $(EX1)/exponentiation.c $(EX1)/miller_rabin.c $(EX2)/keys.c
 	$(CC) $^ $(LIBS) -o $(EX4)/ex4.bin
+
+ex5: $(EX5)/ex5.c $(EX5)/linked_keys.c $(EX3)/keys_struct.c $(EX1)/exponentiation.c $(EX1)/miller_rabin.c $(EX2)/keys.c
+	$(CC) $^ $(LIBS) -o $(EX5)/ex5.bin
 
 clean:
 	find . -name "*.o" -type f -delete
