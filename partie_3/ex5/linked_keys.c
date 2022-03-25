@@ -109,12 +109,14 @@ CellProtected* read_declarations(char* nomfic) {
   Key *k_tmp;
   char buffer[512];
   char pKey[128], declaration[128], sgn[256];
+  int i=0;
 
   if(!fic)
     exit(12);
 
   while(fgets(buffer, 512, fic) != NULL) {
     if(sscanf(buffer, "%s %s %s", pKey, declaration, sgn) == 3) {
+      printf("%d\n", i++);
       printf("%s %s %s\n", pKey, declaration, sgn);
       sgn_tmp = str_to_signature(sgn);
       k_tmp = str_to_key(pKey);
@@ -129,14 +131,18 @@ CellProtected* read_declarations(char* nomfic) {
 
 void print_list_protected(CellProtected *pr) {
   CellProtected *tmp;
-  char *str_sgn, *str_key;
+  char *str_sgn, *str_key, *str_declaration;
 
   while(pr != NULL) {
     tmp = pr->next;
     str_sgn = signature_to_str(pr->data->sgn);
     str_key = key_to_str(pr->data->pKey);
+    str_declaration = pr->data->declaration_vote;
 
-    printf("%s %s %s\n", str_key, pr->data->declaration_vote, str_sgn);
+    printf("%s %s %s\n", str_key, str_declaration, str_sgn);
+
+    free(str_sgn);
+    free(str_key);
 
     pr = tmp;
   } 
@@ -154,14 +160,15 @@ void free_cell_protected(CellProtected *pr) {
 
   while(pr != NULL) {
     tmp = pr->next;
-    
     free(pr->data->pKey);
     // free(pr->data->declaration_vote);
     free(pr->data->sgn->content);
-    free(pr->data->sgn->mess);
+    // free(pr->data->sgn->mess);
     free(pr->data->sgn);
     free(pr->data);
     free(pr);
     pr = tmp;
   }
+
+  return;
 }

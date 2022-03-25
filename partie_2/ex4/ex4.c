@@ -78,8 +78,10 @@ void generate_random_data(int nv, int nc)
     signature = sign(key_to_str(pKey_tab[index_choix]), sKey_tab[i]);
 
     // declaration == pKey electeur, pKey candidat choisis, signature
-    char *str_pKey = key_to_str(pKey_tab[i]);
-    char *str_pKey_cand = key_to_str(pKey_tab[index_choix]);
+    char *str_pKey, *str_pKey_cand;
+    str_pKey = key_to_str(pKey_tab[i]);
+    str_pKey_cand = key_to_str(pKey_tab[index_choix]);
+    // printf("secret key = %s\n", str_pKey_cand);
     char *str_sign = signature_to_str(signature);
     // printf("%s %s\n", str_pKey, str_pKey_cand);
     fprintf(declarations, "%s %s %s\n", str_pKey, str_pKey_cand, str_sign);
@@ -108,7 +110,6 @@ void generate_random_data(int nv, int nc)
 
 int main(void)
 {
-
   srand(time(NULL));
   generate_random_data(NB_KEYS, NB_CANDIDATS);
 
