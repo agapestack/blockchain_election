@@ -90,6 +90,7 @@ void generate_random_data(int nv, int nc)
     free(str_pKey_cand);
     free(str_sign);
     
+    free(signature->mess);
     free_signature(signature);
   }
 

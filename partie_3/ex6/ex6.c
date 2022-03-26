@@ -13,13 +13,18 @@ int main(void) {
   // CellKey *list_cand = read_public_keys(FILE_CANDIDATES);
   // print_list_keys(list_cand);
 
+  printf("1\n");
   CellProtected *list_decla = read_declarations(FILE_DECLARATIONS);
-  // print_list_protected(list_decla);
+  printf("2\n");
+  print_list_protected(list_decla);
+  
+  printf("-----------------DELETE FAKE SIGNATURE START----------------\n");
   delete_fake_signature(list_decla);
-
+  printf("-----------------DELETE FAKE SIGNATURE STOP----------------\n");
   
   // free_list_keys(list_cand);
   // free_list_keys(list_keys);
+  printf("3\n");
   free_cell_protected(list_decla);
 
   return 0;

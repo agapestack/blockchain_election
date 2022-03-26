@@ -30,7 +30,7 @@ fi
 
 if [ "$1" == "5" ]; then
   cd ./partie_3/ex5/
-  valgrind ./ex5.bin
+  valgrind ./ex5.bin --track-origins=yes --leak-check=full
   cd ../..
 fi
 

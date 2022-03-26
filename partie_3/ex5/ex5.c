@@ -15,9 +15,9 @@ int main(void) {
   CellProtected *list_decla = read_declarations(FILE_DECLARATIONS);
   print_list_protected(list_decla);
 
-  free_cell_protected(list_decla);
-  free_list_keys(list_cand);
   free_list_keys(list_keys);
+  free_list_keys(list_cand);
+  free_cell_protected(list_decla);
 
   return 0;
 }

@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 #include "keys.h"
 #include "../ex1/exponentiation.h"
@@ -66,6 +67,7 @@ long *encrypt(char *chaine, long s, long n)
 char *decrypt(long *crypted, int size, long u, long n)
 {
   char *decrypted = (char *)malloc(sizeof(char) * (size + 1));
+  long test;
   if (!decrypted)
   {
     exit(12);
@@ -76,7 +78,9 @@ char *decrypt(long *crypted, int size, long u, long n)
   for (int i = 0; i < size; i++)
   {
     // printf("modpow crypted = %ld\t", modpow(crypted[i], u, n));
-    decrypted[i] = modpow(crypted[i], u, n);
+    test = modpow(crypted[i], u, n);
+    printf("crypted[i]=%ld\tu=%ld\tn=%ld\tres_modpow = %ld\n", crypted[i], u, n, test);
+    decrypted[i] = test;
   }
 
   decrypted[size] = '\0';

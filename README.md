@@ -34,7 +34,7 @@ set size 0.7, 0.7
 - [x] memory leak ex2
 - [x] memory leak ex3
 - [x] memory leak ex4
-- [ ] memory leak ex5
+- [x] memory leak ex5
 - [ ] memory leak ex6
 
 ### Presentations

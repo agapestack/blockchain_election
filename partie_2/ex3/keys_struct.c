@@ -9,17 +9,26 @@
 
 void free_signature(Signature *s)
 {
-  free(s->mess);
-  free(s->content);
-  free(s);
+  if (s)
+  {
+    // free(s->mess);
+    free(s->content);
+    free(s);
+  }
+
   return;
 }
 
 void free_protected(Protected *p)
 {
-  free_signature(p->sgn);
-  free(p->pKey);
-  free(p);
+  if (p)
+  {
+    free_signature(p->sgn);
+    free(p->declaration_vote);
+    free(p->pKey);
+    free(p);
+  }
+
   return;
 }
 
@@ -124,29 +133,35 @@ char *signature_to_str(Signature *sgn)
   return result;
 }
 
-Signature* str_to_signature(char* str){
-    int len = strlen(str);
-    long* content = (long*)malloc(sizeof(long)*len);
-    int num = 0;
-    char buffer[256];
-    int pos = 0;
-    for(int i = 0; i < len; i++){
-        if(str[i] != '#'){
-            buffer[pos] = str[i];
-            pos++;
-        } else{
-            if(pos){
-                buffer[pos] = '\0';
-                sscanf(buffer, "%lx", &(content[num]));
-                num++;
-                pos = 0;
-            }
-        }
+Signature *str_to_signature(char *str)
+{
+  int len = strlen(str);
+  long *content = (long *)malloc(sizeof(long) * len);
+  int num = 0;
+  char buffer[256];
+  int pos = 0;
+  for (int i = 0; i < len; i++)
+  {
+    if (str[i] != '#')
+    {
+      buffer[pos] = str[i];
+      pos++;
     }
-    
-    content = (long*)realloc(content, num*sizeof(long));
+    else
+    {
+      if (pos)
+      {
+        buffer[pos] = '\0';
+        sscanf(buffer, "%lx", &(content[num]));
+        num++;
+        pos = 0;
+      }
+    }
+  }
 
-    return init_signature(content, num);
+  content = (long *)realloc(content, num * sizeof(long));
+
+  return init_signature(content, num);
 }
 
 Protected *init_protected(Key *pKey, char *mess, Signature *sgn)

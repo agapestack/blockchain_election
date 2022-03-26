@@ -52,6 +52,7 @@ long modpow_naive(long a, long m, long n)
     return res;
 }
 
+// retourn a^n modulo n
 long modpow(long a, long m, long n)
 {
     long res = 1;
