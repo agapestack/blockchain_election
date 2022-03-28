@@ -3,6 +3,7 @@
 ## Note aux correcteurs
 
 ```bash
+sudo chmod +x test.sh
 sudo chmod +x run.sh
 # make ex[numero de l'exercice] pour compiler 
 make ex1

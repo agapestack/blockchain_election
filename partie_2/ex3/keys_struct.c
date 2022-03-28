@@ -183,6 +183,7 @@ int verify(Protected *pr)
   char *dechiffre;
   int res;
 
+  printf("verify: size = %d\n", pr->sgn->size);
   dechiffre = decrypt(pr->sgn->content, pr->sgn->size, pr->pKey->n, pr->pKey->val);
   printf("dechiffre: %s\n", dechiffre);
   res = strcmp(dechiffre, pr->declaration_vote);

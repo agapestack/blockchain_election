@@ -17,7 +17,8 @@ void delete_fake_signature(CellProtected *c) {
       nb_fake +=1;
       to_dell = c;
       c = c->next;
-      delete_cell_protected(to_dell);
+      // TODO DELETE WRONG DECLARATION
+      // delete_cell_protected(to_dell);
     }else {
       c = c->next;
     }
