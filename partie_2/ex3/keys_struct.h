@@ -2,7 +2,7 @@
 #define __KEYS_STRUCT__
 
 typedef struct Key {
-  // 
+  // u ou s
   long val;
   // n = p*q
   long n;
