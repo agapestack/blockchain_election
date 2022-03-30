@@ -47,6 +47,7 @@ void generate_key_values(long p, long q, long *n, long *s, long *u)
 long *encrypt(char *chaine, long s, long n)
 {
   long *encrypted = (long *)malloc(sizeof(long) * strlen(chaine));
+  long mod;
   if (!encrypted)
   {
     exit(12);
@@ -56,8 +57,10 @@ long *encrypt(char *chaine, long s, long n)
 
   int i = 0;
   while (chaine[i] != '\0')
-  {
-    encrypted[i] = modpow((int)chaine[i], s, n);
+  { 
+    mod = modpow((int)chaine[i], s, n);
+    encrypted[i] = mod;
+    // printf("%c\t%ld\n", chaine[i], mod);
     i++;
   }
 
@@ -79,7 +82,7 @@ char *decrypt(long *crypted, int size, long u, long n)
   {
     // printf("modpow crypted = %ld\t", modpow(crypted[i], u, n));
     test = modpow(crypted[i], u, n);
-    printf("crypted[i]=%ld\tu=%ld\tn=%ld\tres_modpow = %ld\n", crypted[i], u, n, test);
+    // printf("crypted[i]=%ld\tu=%ld\tn=%ld\tres_modpow = %ld\n", crypted[i], u, n, test);
     decrypted[i] = test;
   }
 

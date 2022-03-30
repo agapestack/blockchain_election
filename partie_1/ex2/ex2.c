@@ -16,7 +16,7 @@ void print_long_vector(long *result, int size)
   printf ( "Vector : [ " ) ;
   for ( int i =0; i < size ; i ++) {
       printf( "%lx \t", result[i]);
-      // printf( "%ld \t", result[i]);
+      printf( "%ld \t", result[i]);
   }
   printf ( " ]\n" ) ;
 }
@@ -45,7 +45,7 @@ int main() {
   // printf("cle privee = (%lx, %lx) \n", u, n);
 
   // Chiffrement
-  char mess[256] = "Les codes de la bombe nucléaire sont ZLBr8pfTRHu86YvQ782Wsbf23x6j6EU5d2ycs6EQ4Er2P788T3v3j7BpSDLzjp4M";
+  char mess[256] = "Les codes de la bombe nucléaire sont (ZLBr8pfTRHu86YvQ782Wsbf23x6j6EU5d2ycs6EQ4Er2P788T3v3j7BpSDLzjp4M)";
   int len = strlen(mess);
   long *crypted = encrypt(mess, s, n);
   
@@ -60,27 +60,27 @@ int main() {
   free(decoded);
 
   // randomisation des test automatiques
-  for(int i=0; i < NB_TEST_RSA; i++) {
-    // génération d'un message aléatoire
-    for(int j=0; j < 255; j++) {
-      mess[j] = rand() % 26 + 'a';
-    }
-    mess[255] = '\0';
-    len = strlen(mess);
+  // for(int i=0; i < NB_TEST_RSA; i++) {
+  //   // génération d'un message aléatoire
+  //   for(int j=0; j < 255; j++) {
+  //     mess[j] = rand() % 256;
+  //   }
+  //   mess[255] = '\0';
+  //   len = strlen(mess);
 
-    crypted = encrypt(mess, s, n);
-    decoded = decrypt(crypted, len, u, n);
+  //   crypted = encrypt(mess, s, n);
+    // decoded = decrypt(crypted, len, u, n);
 
-    printf("Message: %s\n", mess);
-    print_long_vector(crypted, len);
-    printf("Decoded: %s\n\n", decoded);
+  //   printf("Message: %s\n", mess);
+  //   print_long_vector(crypted, len);
+  //   printf("Decoded: %s\n\n", decoded);
 
-    // Il est possible que cette assert ne marche pas, on est alors tomber sur un cas ou notre génération probabiliste de nombre premier a échoué, mais dans la pratique avec des nombre premiers suffisamment eleve ce cas est extremement rare!
-    assert(strcmp(mess, decoded) == 0);
+  //   // Il est possible que cette assert ne marche pas, on est alors tomber sur un cas ou notre génération probabiliste de nombre premier a échoué, mais dans la pratique avec des nombre premiers suffisamment eleve ce cas est extremement rare!
+  //   assert(strcmp(mess, decoded) == 0);
 
-    free(crypted);
-    free(decoded);
-  }
+  //   free(crypted);
+  //   free(decoded);
+  // }
 
   return 0;
 }

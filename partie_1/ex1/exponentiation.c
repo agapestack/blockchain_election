@@ -58,6 +58,8 @@ long modpow(long a, long m, long n)
     long res = 1;
     long b;
 
+    // a = a % n;
+
     if (m == 0)
     {
         return 1;
