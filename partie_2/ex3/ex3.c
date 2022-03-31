@@ -70,9 +70,7 @@ int main(void)
   char *temp = protected_to_str(pr);
   printf("protected_to_str: %s \n", temp);
 
-  // //  TODO MEMORY LEAK HERE 
   Protected *pr2 = str_to_protected(temp);
-  
 
   char *c_tmp1 = key_to_str(pr->pKey);
   char *c_tmp2 = signature_to_str(pr->sgn);

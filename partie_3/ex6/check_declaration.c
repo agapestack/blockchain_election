@@ -4,7 +4,7 @@
 #include "../ex5/linked_keys.h"
 
 void delete_fake_signature(CellProtected *c) {
-  CellProtected *to_dell;
+  CellProtected *to_del;
   Protected *pr;
   int nb_fake = 0;
 
@@ -15,10 +15,10 @@ void delete_fake_signature(CellProtected *c) {
     // si la signature est fausse --> suppression
     if(verify(pr) == 0) {
       nb_fake +=1;
-      to_dell = c;
+      to_del = c;
       c = c->next;
       // TODO DELETE WRONG DECLARATION
-      // delete_cell_protected(to_dell);
+      // delete_cell_protected(to_del);
     }else {
       c = c->next;
     }

@@ -2,6 +2,8 @@
 
 ## Note aux correcteurs
 
+> De nombreuses options peuvent être facilement changer depuis le fichier params.h
+
 ```bash
 sudo chmod +x test.sh
 sudo chmod +x run.sh

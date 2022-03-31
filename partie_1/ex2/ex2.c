@@ -60,27 +60,30 @@ int main() {
   free(decoded);
 
   // randomisation des test automatiques
-  // for(int i=0; i < NB_TEST_RSA; i++) {
-  //   // génération d'un message aléatoire
-  //   for(int j=0; j < 255; j++) {
-  //     mess[j] = rand() % 256;
-  //   }
-  //   mess[255] = '\0';
-  //   len = strlen(mess);
+  for(int i=0; i < NB_TEST_RSA; i++) {
+    // génération d'un message aléatoire
+    for(int j=0; j < 255; j++) {
+      mess[j] = rand() % 26 + 'a';
+    }
+    mess[255] = '\0';
+    len = strlen(mess);
 
-  //   crypted = encrypt(mess, s, n);
-    // decoded = decrypt(crypted, len, u, n);
+    crypted = encrypt(mess, s, n);
+    decoded = decrypt(crypted, len, u, n);
 
-  //   printf("Message: %s\n", mess);
-  //   print_long_vector(crypted, len);
-  //   printf("Decoded: %s\n\n", decoded);
+    printf("Message: %s\n", mess);
+    print_long_vector(crypted, len);
+    printf("Decoded: %s\n", decoded);
 
-  //   // Il est possible que cette assert ne marche pas, on est alors tomber sur un cas ou notre génération probabiliste de nombre premier a échoué, mais dans la pratique avec des nombre premiers suffisamment eleve ce cas est extremement rare!
-  //   assert(strcmp(mess, decoded) == 0);
+    // Il est possible que cette assert ne marche pas, on est alors tomber sur un cas ou notre génération probabiliste de nombre premier a échoué, mais dans la pratique avec des nombre premiers suffisamment eleve ce cas est extremement rare!
+    if(strcmp(mess, decoded) == 0) {
+      printf("------------------Les chaînes correspondent bien!------------------\n\n\n");
+    }
+    assert(strcmp(mess, decoded) == 0);
 
-  //   free(crypted);
-  //   free(decoded);
-  // }
+    free(crypted);
+    free(decoded);
+  }
 
   return 0;
 }

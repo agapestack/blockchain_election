@@ -59,6 +59,7 @@ long *encrypt(char *chaine, long s, long n)
   while (chaine[i] != '\0')
   { 
     mod = modpow((int)chaine[i], s, n);
+    // printf("encrypted[i]=%lx", mod);
     encrypted[i] = mod;
     // printf("%c\t%ld\n", chaine[i], mod);
     i++;
@@ -69,21 +70,16 @@ long *encrypt(char *chaine, long s, long n)
 
 char *decrypt(long *crypted, int size, long u, long n)
 {
-  char *decrypted = (char *)malloc(sizeof(char) * (size + 1));
+  char *decrypted = (char *)malloc(2 * size);
   long test;
   if (!decrypted)
   {
     exit(12);
   }
 
-  // printf("modulo=%ld\n", n);
-
   for (int i = 0; i < size; i++)
   {
-    // printf("modpow crypted = %ld\t", modpow(crypted[i], u, n));
-    test = modpow(crypted[i], u, n);
-    // printf("crypted[i]=%ld\tu=%ld\tn=%ld\tres_modpow = %ld\n", crypted[i], u, n, test);
-    decrypted[i] = test;
+    decrypted[i] = modpow(crypted[i], u, n);
   }
 
   decrypted[size] = '\0';

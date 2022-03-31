@@ -184,10 +184,11 @@ int verify(Protected *pr)
   int res;
 
   // printf("verify: size = %d\n", pr->sgn->size);
+  // dechiffre = decrypt(pr->sgn->content, pr->sgn->size, pr->pKey->val, pr->pKey->n);
   dechiffre = decrypt(pr->sgn->content, pr->sgn->size, pr->pKey->n, pr->pKey->val);
-  printf("dechiffre: %s\n", dechiffre);
   res = strcmp(dechiffre, pr->declaration_vote);
-
+  printf("decla: %s\tdechiffre: %s\tres = %d\n", pr->declaration_vote, dechiffre, res);
+  
   free(dechiffre);
 
   return res == 0;

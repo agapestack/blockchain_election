@@ -4,7 +4,8 @@
 
 int is_prime_naive(long p)
 {
-    if (p <= 1) {
+    if (p <= 1)
+    {
         return 0;
     }
 
@@ -33,11 +34,13 @@ void print_is_prime(long p)
 
 long modpow_naive(long a, long m, long n)
 {
-    if(m < 0) {
+    if (m < 0)
+    {
         printf("modpow_naive: invalid parameter(negative exponent)\n");
         exit(14);
     }
-    if(m == 0) {
+    if (m == 0)
+    {
         return 1 % n;
     }
 
@@ -66,12 +69,12 @@ long modpow(long a, long m, long n)
     }
 
     b = modpow(a, m / 2, n);
-    
-    if (m % 2 == 0)     // cas pair
+
+    if (m % 2 == 0) // cas pair
     {
         return (b * b) % n;
     }
-    else                // cas impair
+    else // cas impair
     {
         return (a * b * b) % n;
     }
