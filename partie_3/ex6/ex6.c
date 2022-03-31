@@ -19,33 +19,17 @@ int main(void) {
   CellProtected *cursor;
   char *buffer;
 
-  printf("1\n");
   CellProtected *list_decla = read_declarations(FILE_DECLARATIONS);
-  printf("2\n");
+  printf("Nombres de déclarations: %d\n", get_cp_size(list_decla));
   // print_list_protected(list_decla);
   
   printf("-----------------DELETE FAKE SIGNATURE START----------------\n");
-  cursor = list_decla;
-  while(cursor != NULL) {
-    pr = cursor->data;
-    // printf("pkey = %s, decla = %s, sgn = %s\n", key_to_str(pr->pKey), pr->declaration_vote, signature_to_str(pr->sgn));
-    buffer = decrypt(pr->sgn->content, pr->sgn->size, pr->pKey->n, pr->pKey->val);
-    if(verify(pr) == 1) {
-      printf("OK\n");
-    } else {
-      printf("KO\n");
-    }
-    // printf("decla = %s\tdecrypted = %s\n", pr->declaration_vote, buffer);
-    free(buffer);
-
-    cursor = cursor->next;
-  }
-  // delete_fake_signature(list_decla);
+  delete_fake_signature(list_decla);
+  // printf("Nombres de déclarations: %d\n", get_cp_size(list_decla));
   printf("-----------------DELETE FAKE SIGNATURE STOP----------------\n");
   
   // free_list_keys(list_cand);
   // free_list_keys(list_keys);
-  printf("3\n");
   free_cell_protected(list_decla);
 
   return 0;

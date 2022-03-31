@@ -65,8 +65,9 @@ void generate_random_data(int nv, int nc)
     index_candidates[size] = rand_cand;
     size++;
   }
+  // index_candidates --> tableaux des index des candidats dans pKey_tab
 
-  // écriture des clés publique des candidats dans declarations.txt
+  // écriture des clés publique des candidats dans candidates.txt
   printf("Liste des clés publiques des candidats: \n");
   for(int i=0; i < nc; i++) {
     tmp = key_to_str(pKey_tab[index_candidates[i]]);
@@ -78,12 +79,12 @@ void generate_random_data(int nv, int nc)
   // Générations de déclaration signés pour chaque electeur pour un candidat choisis au hasard
   for(int i=0; i < nv; i++) {
     index_choix = rand() % nc;
-    signature = sign(key_to_str(pKey_tab[index_choix]), sKey_tab[i]);
+    signature = sign(key_to_str(pKey_tab[index_candidates[index_choix]]), sKey_tab[i]);
 
     // declaration == pKey electeur, pKey candidat choisis, signature
     char *str_pKey, *str_pKey_cand;
     str_pKey = key_to_str(pKey_tab[i]);
-    str_pKey_cand = key_to_str(pKey_tab[index_choix]);
+    str_pKey_cand = key_to_str(pKey_tab[index_candidates[index_choix]]);
     // printf("secret key = %s\n", str_pKey_cand);
     char *str_sign = signature_to_str(signature);
     // printf("%s %s\n", str_pKey, str_pKey_cand);
