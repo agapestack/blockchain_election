@@ -14,7 +14,7 @@
 
 ## Description globale
 
-[description globale](/assets/Diagramme_Projet.pdf)
+[description globale](./assets/Diagramme_Projet.pdf)
 
 ## Description du systeme de vote
 
@@ -43,7 +43,7 @@ Dernier nombre premier trouver en 2ms par is_prime_naive: 235813        temps=0.
 
 ### 1.5 Comparaison asymptotiques de modpow et modpow_naive
 
-[courbes obtennues](assets/graphe_comparaison_exponentiation.pdf)
+[courbes obtennues](./assets/graphe_comparaison_exponentiation.pdf)
 
 ### 1.7 Borne superieur sur la probabilite d'erreur de l'algorithme de Miller/Rabin
 
@@ -51,4 +51,3 @@ Dernier nombre premier trouver en 2ms par is_prime_naive: 235813        temps=0.
 
 ## Conclusion
 
->

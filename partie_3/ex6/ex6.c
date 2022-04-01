@@ -25,7 +25,7 @@ int main(void) {
   
   printf("-----------------DELETE FAKE SIGNATURE START----------------\n");
   delete_fake_signature(list_decla);
-  // printf("Nombres de déclarations: %d\n", get_cp_size(list_decla));
+  printf("Nombres de déclarations: %d\n", get_cp_size(list_decla));
   printf("-----------------DELETE FAKE SIGNATURE STOP----------------\n");
   
   // free_list_keys(list_cand);
