@@ -1,40 +1,56 @@
 CC=gcc
 CFLAG=-Wall
-LIBS=-lm
 
-EX1=./partie_1/ex1
-EX2=./partie_1/ex2
-EX3=./partie_2/ex3
-EX4=./partie_2/ex4
-EX4=./partie_2/ex4
-EX5=./partie_3/ex5
-EX6=./partie_3/ex6
+BIN=./bin
+OBJ=./obj
 
-all: ex1 ex2 ex3 ex4 ex5 ex6
+EX1=./src/partie_1/ex1
+EX2=./src/partie_1/ex2
+EX3=./src/partie_2/ex3
+EX4=./src/partie_2/ex4
+EX4=./src/partie_2/ex4
+EX5=./src/partie_3/ex5
+EX6=./src/partie_3/ex6
 
-ex1: $(EX1)/ex1.c $(EX1)/exponentiation.c $(EX1)/miller_rabin.c
-	$(CC) $^ $(LIBS) -o $(EX1)/ex1.bin
+all: ex1 ex2
 
-ex2: $(EX2)/ex2.c $(EX2)/keys.c $(EX1)/exponentiation.c $(EX1)/miller_rabin.c
-	$(CC) $^ $(LIBS) -o $(EX2)/ex2.bin
+ex1: $(EX1)/ex1.c $(OBJ)/miller_rabin.o
+	gcc $^ -o $(BIN)/ex1.bin
 
-ex3: $(EX3)/ex3.c $(EX3)/keys_struct.c $(EX1)/exponentiation.c $(EX1)/miller_rabin.c $(EX2)/keys.c
-	$(CC) $^ $(LIBS) -o $(EX3)/ex3.bin
+ex2: $(EX2)/ex2.c $(OBJ)/keys.o $(OBJ)/miller_rabin.o
+	gcc $^ -o $(BIN)/ex2.bin
 
-ex4: $(EX4)/ex4.c $(EX3)/keys_struct.c $(EX1)/exponentiation.c $(EX1)/miller_rabin.c $(EX2)/keys.c
-	$(CC) $^ $(LIBS) -o $(EX4)/ex4.bin
+ex3: $(EX3)/ex3.c $(OBJ)/keys_struct.o $(OBJ)/keys.o $(OBJ)/miller_rabin.o $(OBJ)/keys.o
+	gcc $^ -o $(BIN)/ex3.bin
 
-ex5: $(EX5)/ex5.c $(EX5)/linked_keys.c $(EX3)/keys_struct.c $(EX1)/exponentiation.c $(EX1)/miller_rabin.c $(EX2)/keys.c
-	$(CC) $^ $(LIBS) -o $(EX5)/ex5.bin
+ex4: $(EX4)/ex4.c $(OBJ)/keys_struct.o $(OBJ)/keys.o $(OBJ)/miller_rabin.o $(OBJ)/keys.o
+	gcc $^ -o $(BIN)/ex4.bin
 
-ex6: $(EX6)/ex6.c $(EX6)/check_declaration.c $(EX5)/linked_keys.c $(EX3)/keys_struct.c $(EX1)/exponentiation.c $(EX1)/miller_rabin.c $(EX2)/keys.c
-	$(CC) $^ $(LIBS) -o $(EX6)/ex6.bin
+ex5: $(EX5)/ex5.c $(OBJ)/linked_keys.o $(OBJ)/keys_struct.o $(OBJ)/keys.o $(OBJ)/miller_rabin.o $(OBJ)/keys.o
+	gcc $^ -o $(BIN)/ex5.bin
+
+ex6: $(EX6)/ex6.c $(OBJ)/check_declaration.o $(OBJ)/linked_keys.o $(OBJ)/keys_struct.o $(OBJ)/keys.o $(OBJ)/miller_rabin.o $(OBJ)/keys.o
+	gcc $^ -o $(BIN)/ex6.bin
+
+$(OBJ)/miller_rabin.o: $(EX1)/miller_rabin.c
+	gcc -c $^ -o $@
+
+$(OBJ)/keys.o: $(EX2)/keys.c
+	gcc -c $^ -o $@
+
+$(OBJ)/keys_struct.o: $(EX3)/keys_struct.c
+	gcc -c $^ -o $@
+
+$(OBJ)/linked_keys.o: $(EX5)/linked_keys.c
+	gcc -c $^ -o $@
+
+$(OBJ)/check_declaration.o: $(EX6)/check_declaration.c
+	gcc -c $^ -o $@
 
 clean:
-	find . -name "*.o" -type f -delete
+	rm ./obj/*.o
 
 mrproper: clean
-	find . -name "*.bin" -type f -delete
-	find . -name "a.out" -type f -delete
-	rm ./data/*.txt
+	rm ./data/*
+	rm ./bin/*
 

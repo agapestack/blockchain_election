@@ -5,21 +5,22 @@
 > De nombreuses options peuvent être facilement changer depuis le fichier params.h
 
 ```bash
-sudo chmod +x test.sh
 sudo chmod +x run.sh
 # make ex[numero de l'exercice] pour compiler 
 make ex1
-# ./run.sh [numero de l'exercice]
+# ./run.sh [numero de l'exercice]     LANCEMENT
 ./run.sh 1
+# ./run.sh -t [numero de l'exercice]  LANCEMENT AVEC VALGRIND
+./run.sh -t 1
 ```
 
 ## Rappel utilisation gnuplot
 
 ```bash
-plot "comparaison_exponentiation.txt" using 1:2 title "modpow_naive" with lines
-replot "comparaison_exponentiation.txt" using 1:3 title "modpow" with lines
+plot "./data/comparaison_exponentiation.txt" using 1:2 title "modpow_naive" with lines
+replot "./data/comparaison_exponentiation.txt" using 1:3 title "modpow" with lines
 set term postscript portrait
-set output "comparaison_exponentiation.ps"
+set output "./data/comparaison_exponentiation.ps"
 set size 0.7, 0.7
 ```
 
