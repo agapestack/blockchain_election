@@ -12,7 +12,7 @@ EX4=./src/partie_2/ex4
 EX5=./src/partie_3/ex5
 EX6=./src/partie_3/ex6
 
-all: ex1 ex2
+all: ex1 ex2 ex3 ex4 ex5 ex6
 
 ex1: $(EX1)/ex1.c $(OBJ)/miller_rabin.o
 	gcc $^ -o $(BIN)/ex1.bin
