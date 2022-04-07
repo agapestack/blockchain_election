@@ -1,36 +1,25 @@
-#include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
+#include <stdlib.h>
 
-#include "../ex5/linked_keys.h"
+#include "hash.h"
 #include "../../params.h"
-#include "./check_declaration.h"
 
-#include "../../partie_1/ex2/keys.h"
+int main(void)
+{
 
-int main(void) {
+  printf("----------START READ_PROTECTED----------\n");
+  CellProtected **lp = read_protected(FILE_DECLARATIONS);
+  printf("----------END READ_PROTECTED----------\n\n\n");
 
-  // CellKey *list_keys = read_public_keys(FILE_KEYS);
-  // print_list_keys(list_keys);
+  printf("----------START PRINT_LIST_KEYS----------\n");
+  print_list_protected(*lp);
+  printf("----------END PRINT_LIST_KEYS----------\n\n\n");
 
-  // CellKey *list_cand = read_public_keys(FILE_CANDIDATES);
-  // print_list_keys(list_cand);
-  Protected *pr;
-  CellProtected *cursor;
-  char *buffer;
+  printf("----------START VERIFY_LIST_PROTECTED----------\n");
+  verify_list_protected(lp);
+  printf("----------END VERIFY_LIST_PROTECTED----------\n\n\n");
 
-  CellProtected *list_decla = read_declarations(FILE_DECLARATIONS);
-  printf("Nombres de déclarations: %d\n", get_cp_size(list_decla));
-  // print_list_protected(list_decla);
-  
-  printf("-----------------DELETE FAKE SIGNATURE START----------------\n");
-  delete_fake_signature(list_decla);
-  printf("Nombres de déclarations: %d\n", get_cp_size(list_decla));
-  printf("-----------------DELETE FAKE SIGNATURE STOP----------------\n");
-  
-  // free_list_keys(list_cand);
-  // free_list_keys(list_keys);
-  free_cell_protected(list_decla);
+  delete_list_protected(lp);
 
   return 0;
 }

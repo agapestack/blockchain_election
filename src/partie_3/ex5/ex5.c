@@ -1,23 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "linked_keys.h"
 #include "../../params.h"
+#include "./linked_list.h"
 
 int main(void) {
 
-  CellKey *list_keys = read_public_keys(FILE_KEYS);
-  print_list_keys(list_keys);
+  printf("----------START READ_PUBLIC_KEYS----------\n");
+  CellKey **lk = read_public_keys(FILE_KEYS);
+  printf("----------END READ_PUBLIC_KEYS----------\n\n\n");
+  
+  printf("----------START PRINT_LIST_KEYS----------\n");
+  print_list_keys(*lk);
+  printf("----------END PRINT_LIST_KEYS----------\n\n\n");
 
-  CellKey *list_cand = read_public_keys(FILE_CANDIDATES);
-  print_list_keys(list_cand);
+  delete_list_keys(lk);
 
-  CellProtected *list_decla = read_declarations(FILE_DECLARATIONS);
-  print_list_protected(list_decla);
+  printf("----------START READ_PROTECTED----------\n");
+  CellProtected **lp = read_protected(FILE_DECLARATIONS);
+  printf("----------END READ_PROTECTED----------\n\n\n");
 
-  free_list_keys(list_keys);
-  free_list_keys(list_cand);
-  free_cell_protected(list_decla);
+  printf("----------START PRINT_LIST_KEYS----------\n");
+  print_list_protected(*lp);
+  printf("----------END PRINT_LIST_KEYS----------\n\n\n");
+
+  delete_list_protected(lp);
 
   return 0;
 }

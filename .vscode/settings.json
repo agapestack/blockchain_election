@@ -2,6 +2,7 @@
   "files.associations": {
     "params.h": "c",
     "miller_rabin.h": "c",
-    "keys.h": "c"
+    "keys.h": "c",
+    "keys_struct.h": "c"
   }
 }

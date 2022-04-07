@@ -26,10 +26,10 @@ ex3: $(EX3)/ex3.c $(OBJ)/keys_struct.o $(OBJ)/keys.o $(OBJ)/miller_rabin.o $(OBJ
 ex4: $(EX4)/ex4.c $(OBJ)/keys_struct.o $(OBJ)/keys.o $(OBJ)/miller_rabin.o $(OBJ)/keys.o
 	gcc $^ -o $(BIN)/ex4.bin
 
-ex5: $(EX5)/ex5.c $(OBJ)/linked_keys.o $(OBJ)/keys_struct.o $(OBJ)/keys.o $(OBJ)/miller_rabin.o $(OBJ)/keys.o
+ex5: $(EX5)/ex5.c $(OBJ)/linked_list.o $(OBJ)/keys_struct.o $(OBJ)/keys.o $(OBJ)/miller_rabin.o $(OBJ)/keys.o
 	gcc $^ -o $(BIN)/ex5.bin
 
-ex6: $(EX6)/ex6.c $(OBJ)/check_declaration.o $(OBJ)/linked_keys.o $(OBJ)/keys_struct.o $(OBJ)/keys.o $(OBJ)/miller_rabin.o $(OBJ)/keys.o
+ex6: $(EX6)/ex6.c	$(OBJ)/hash.o $(OBJ)/linked_list.o $(OBJ)/keys_struct.o $(OBJ)/keys.o $(OBJ)/miller_rabin.o $(OBJ)/keys.o
 	gcc $^ -o $(BIN)/ex6.bin
 
 $(OBJ)/miller_rabin.o: $(EX1)/miller_rabin.c
@@ -41,10 +41,10 @@ $(OBJ)/keys.o: $(EX2)/keys.c
 $(OBJ)/keys_struct.o: $(EX3)/keys_struct.c
 	gcc -c $^ -o $@
 
-$(OBJ)/linked_keys.o: $(EX5)/linked_keys.c
+$(OBJ)/linked_list.o: $(EX5)/linked_list.c
 	gcc -c $^ -o $@
 
-$(OBJ)/check_declaration.o: $(EX6)/check_declaration.c
+$(OBJ)/hash.o: $(EX6)/hash.c
 	gcc -c $^ -o $@
 
 clean:
