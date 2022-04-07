@@ -49,3 +49,28 @@ void verify_list_protected(CellProtected **cp)
   printf("Nombre de signatures test: %d\nNombre de signatures invalides supprimées: %d\nPourcentage d'erreur: %.02f%%\n", nb_test, nb_erreur, pourcentage_erreur);
   return;
 }
+
+HashCell* create_hashcell(Key* key) {
+  HashCell *nouv = (HashCell*)malloc(sizeof(HashCell));
+  if(!nouv)
+    exit(12);
+
+  nouv->key = key;
+  nouv->val = 0;
+
+  return nouv;
+}
+
+int hash_function(Key *key, int size) {
+  int s = 0;
+  char *chaine = key_to_str(key);
+  while(*chaine) {
+    s += (int)(*chaine);
+    chaine++;
+  }
+  return s % size;
+}
+
+int find_position(HashTable *t, Key* key) {
+  
+}
