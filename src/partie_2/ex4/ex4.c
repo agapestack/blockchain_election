@@ -84,7 +84,7 @@ void generate_random_data(int nv, int nc)
     signature = sign(str_pKey_cand, sKey_tab[i]);
     str_sign = signature_to_str(signature);
     // printf("%s %s %s\n", str_pKey, str_pKey_cand, str_sign);
-    fprintf(declarations, "%s %s %s\n", str_pKey, str_pKey_cand, str_sign);
+    fprintf(declarations, "Declaration: %s %s %s\n", str_pKey, str_pKey_cand, str_sign);
 
 
     free(str_pKey);
