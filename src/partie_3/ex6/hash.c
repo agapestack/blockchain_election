@@ -72,5 +72,9 @@ int hash_function(Key *key, int size) {
 }
 
 int find_position(HashTable *t, Key* key) {
-  
+  HashCell **tab = t->tab;
+
+  for(int i=0; i < t->size; i++) {
+    
+  }   
 }
