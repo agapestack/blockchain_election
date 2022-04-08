@@ -20,8 +20,8 @@
 #define NB_TEST_EX3 1000
 
 // EXERCICE 4
-#define NB_KEYS 20000                // Nombre de personnes enregistre aux elections / declaration de vote
-#define NB_CANDIDATS 12              // Nombre de candidats parmis les personnes enregistre
+#define NB_KEYS 100                // Nombre de personnes enregistre aux elections / declaration de vote
+#define NB_CANDIDATS 3              // Nombre de candidats parmis les personnes enregistre
 
 
 // FICHIERS
@@ -29,5 +29,6 @@
 #define FILE_CANDIDATES "./data/candidates.txt"
 #define FILE_DECLARATIONS "./data/declarations.txt"
 #define FILE_COMPARAISON_EXPONENTIATION "./data/comparaison_exponentiation.txt"
+#define FILE_BLOCKS "./data/blocks.txt"
 
 #endif

@@ -3,6 +3,7 @@
     "params.h": "c",
     "miller_rabin.h": "c",
     "keys.h": "c",
-    "keys_struct.h": "c"
+    "keys_struct.h": "c",
+    "linked_list.h": "c"
   }
 }

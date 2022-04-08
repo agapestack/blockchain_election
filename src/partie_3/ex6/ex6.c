@@ -19,7 +19,15 @@ int main(void)
   verify_list_protected(lp);
   printf("----------END VERIFY_LIST_PROTECTED----------\n\n\n");
 
+  // A present toutes les declarations sont bien verifier
+
+  printf("----------START TEST HASH FUNCTIONS----------\n");
+
+
+  
   delete_list_protected(lp);
+  // free(list_decla);
+  printf("----------END TEST HASH FUNCTIONS----------\n");
 
   return 0;
 }

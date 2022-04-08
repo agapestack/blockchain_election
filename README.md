@@ -33,6 +33,11 @@ set size 0.7, 0.7
 
 ## TODOS
 
+- [ ] fuite ex6
+- [ ] verfier fonction ex7 (surtout serialisation, et representation binaire)
+- [ ] generer des jeux de tests
+- [ ] rapport
+
 ### Memory Leak
 
 - [x] memory leak ex1
@@ -41,5 +46,6 @@ set size 0.7, 0.7
 - [x] memory leak ex4
 - [x] memory leak ex5
 - [ ] memory leak ex6
+- [ ] memory leak ex7
 
 ### Presentations

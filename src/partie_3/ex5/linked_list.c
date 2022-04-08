@@ -55,9 +55,10 @@ void print_list_keys(CellKey *LCK)
 {
   CellKey *cursor = LCK;
 
-  while (cursor)
+  while (cursor != NULL)
   {
     char *buffer;
+
     buffer = key_to_str(cursor->data);
     printf("%s\n", buffer);
     free(buffer);
@@ -94,7 +95,7 @@ void delete_list_keys(CellKey **lk)
 
 CellProtected *create_cell_protected(Protected *pr)
 {
-  CellProtected *nouv = (CellProtected*)malloc(sizeof(CellProtected));
+  CellProtected *nouv = (CellProtected *)malloc(sizeof(CellProtected));
   if (!nouv)
     exit(12);
 
@@ -148,17 +149,20 @@ void print_list_protected(CellProtected *lp)
   return;
 }
 
-void delete_cell_protected(CellProtected* c) {
+void delete_cell_protected(CellProtected *c)
+{
   free_protected(c->data);
   free(c);
 
   return;
 }
 
-void delete_list_protected(CellProtected **cp) {
+void delete_list_protected(CellProtected **cp)
+{
   CellProtected *next;
 
-  while(*cp) {
+  while (*cp)
+  {
     next = (*cp)->next;
     delete_cell_protected(*cp);
     *cp = next;
