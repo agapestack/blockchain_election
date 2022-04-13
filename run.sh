@@ -13,7 +13,7 @@ do
   echo $option
   case $option in
     t)
-      path="valgrind ./bin/ex$2.bin"
+      path="valgrind --track-origins=yes ./bin/ex$2.bin"
       ;;
     *)
       echo "Argument invalide: utiliser -t pour lancer le binaire avec valgrind"

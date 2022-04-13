@@ -117,11 +117,12 @@ char *block_to_str(Block *block)
 unsigned char *hash_sha256(char *str)
 {
   unsigned char *tmp = SHA256(str, strlen(str), 0);
-  unsigned char *res;
+  unsigned char *res = (char *)malloc(sizeof(char) * 255);
+  int offset = 0;
 
   for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
   {
-    sprintf(res + 2 * i, "%02x", tmp[i]);
+    offset += snprintf(res + 2 * i, 255 - offset, "%02x", tmp[i]);
   }
 
   return res;
@@ -159,8 +160,9 @@ int verify_block(Block *b, int d)
   char *str_block = block_to_str(b);
   unsigned char *hash_block = hash_sha256(str_block);
 
-  for(int i=0; i < d; i++) {
-    if(hash_block[i] != '0')
+  for (int i = 0; i < d; i++)
+  {
+    if (hash_block[i] != '0')
       return 0;
   }
 
