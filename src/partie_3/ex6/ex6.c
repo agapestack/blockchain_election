@@ -22,9 +22,11 @@ int main(void)
   // A present toutes les declarations sont bien verifier
 
   printf("----------START TEST HASH FUNCTIONS----------\n");
+  CellKey **lk = read_public_keys(FILE_KEYS);
+  HashTable *ht = create_hashtable(*lk, NB_KEYS);
 
-
-  
+  delete_hashtable(ht);
+  delete_list_keys(lk);
   delete_list_protected(lp);
   // free(list_decla);
   printf("----------END TEST HASH FUNCTIONS----------\n");

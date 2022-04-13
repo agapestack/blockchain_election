@@ -66,11 +66,15 @@ int hash_function(Key *key, int size)
 {
   int s = 0;
   char *chaine = key_to_str(key);
-  while (*chaine)
+  char *cursor = chaine;
+
+  while (*cursor != '\0')
   {
-    s += (int)(*chaine);
-    chaine++;
+    s += (int)(*cursor);
+    cursor++;
   }
+
+  free(chaine);
   return s % size;
 }
 
@@ -169,13 +173,15 @@ void delete_hashtable(HashTable *t)
 {
   for (int i = 0; i < t->size; i++)
   {
-    if (t->tab[i] != NULL)
-    {
-      free(t->tab[i]->key);
+    if(t->tab[i]->key != NULL) {
+      // liberation cle --> delete list key
+      // liberation hashcell
       free(t->tab[i]);
     }
   }
+  // liberation tableau de hashcell
   free(t->tab);
+  // liberation table de hachage
   free(t);
 }
 
