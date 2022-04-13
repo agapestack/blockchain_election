@@ -13,6 +13,7 @@ typedef struct block {
 } Block;
 
 // serialization de block qui marche probablement pas
+void delete_block(Block *b);
 void write_block(char* file_name, Block *b);
 Block* read_block(char *file_name);
 char* block_to_str(Block *block);

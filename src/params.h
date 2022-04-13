@@ -30,5 +30,6 @@
 #define FILE_DECLARATIONS "./data/declarations.txt"
 #define FILE_COMPARAISON_EXPONENTIATION "./data/comparaison_exponentiation.txt"
 #define FILE_BLOCKS "./data/blocks.txt"
+#define FILE_BLOCKS_TEST "./data/blocks_test.txt"
 
 #endif
