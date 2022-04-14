@@ -9,11 +9,13 @@
 #include "../../partie_3/ex5/linked_list.h"
 #include "../../params.h"
 
-void delete_block(Block *b) {
+void delete_block(Block *b)
+{
   free(b->author);
-  free(b->hash);
-  free(b->previous_hash);
-  while(b->votes) {
+  // free(b->hash);
+  // free(b->previous_hash);
+  while (b->votes)
+  {
     CellProtected *tmp = b->votes;
     b->votes = b->votes->next;
     delete_cell_protected(tmp);
@@ -60,10 +62,9 @@ Block *read_block(char *file_name)
   if (!fic)
     exit(12);
   Block *b = (Block *)malloc(sizeof(Block));
-  if(!b)
+  if (!b)
     exit(12);
   char buffer[512];
-
 
   // recuperation cle
   fgets(buffer, 512, fic);
@@ -142,44 +143,60 @@ char *block_to_str(Block *block)
 
 unsigned char *hash_sha256(char *str)
 {
-  unsigned char *res = SHA256(str, strlen(str), 0);
+  unsigned char *res = (char *)malloc(sizeof(char) * 256);
+  char *tmp = SHA256(str, strlen(str), 0);
 
-  // pour retourner en format classique (non hexa) l'énoncé était incompréhensible...
-  // unsigned char *res = (char *)malloc(sizeof(char) * 255);
-  // int offset = 0;
-  // for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
-  // {
-  //   offset += snprintf(res + 2 * i, 255 - offset, "%02x", tmp[i]);
-  // }
+  for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
+  {
+    // sprintf(res + 2 * i, "%02x", tmp[i]);)
+    res[i] = tmp[i];
+  }
 
   return res;
+}
+
+void print_hash(unsigned char *hash)
+{
+  for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
+  {
+    printf("%02x ", hash[i]);
+  }
+  printf("\n");
 }
 
 void compute_proof_of_work(Block *B, int d)
 {
   int nonce = 0;
 
-  while(1) {
+  while (1)
+  {
     int compteur = 0;
 
     B->nonce = nonce;
-    char *str_block = block_to_str(B);
-    char *val_hash_block = hash_sha256(str_block);
-    // free(B->previous_hash);
-    B->previous_hash = B->hash;
-    B->hash = val_hash_block;
+
+    char *block_str = block_to_str(B);
+    unsigned char *new_hash = hash_sha256(block_str);
+    free(block_str);
+
+    print_hash(new_hash);
+    free(B->hash);
+    B->hash = new_hash;
 
     // verification du nombre de 0 au debut de val_hash_block
-    for(int i=0; i < d; i++) {
-      if(val_hash_block[i] != '0') {
+    for (int i = 0; i < d; i++)
+    {
+      if (((int) new_hash[i]) != 0)
+      {
         break;
-      } else {
+      }
+      else
+      {
         compteur += 1;
       }
     }
 
-    free(str_block);
-    if(compteur == d) {
+    if (compteur == d)
+    {
       return;
     }
 

@@ -23,21 +23,23 @@ int main(void)
 
   // on met des donnees random juste pour test
   b->author = pKey;
-  b->hash = strdup("hash");
+  b->hash = strdup("");
   b->nonce = 0;
-  b->previous_hash = strdup("previous_hash");
+  b->previous_hash = strdup("");
   b->votes = *lp;
   free(lp);
 
   printf("-----START COMPUTE_PROOF_OF_WORK (BE PATIENT)-----\n\n");
-  compute_proof_of_work(b, 2);
+  int d = 3;
+  compute_proof_of_work(b, d);
+  printf("nonce = %d\td = %d\n", b->nonce, d);
   printf("-----END COMPUTE_PROOF_OF_WORK-----\n\n");
 
   write_block(FILE_BLOCKS, b);
 
   Block *b_read = read_block(FILE_BLOCKS);
 
-  // write_block(FILE_BLOCKS_TEST, b_read);
+  write_block(FILE_BLOCKS_TEST, b_read);
 
   printf("-----START BLOCK_TO_STR-----\n\n");
   char *str_b = block_to_str(b_read);
@@ -50,27 +52,31 @@ int main(void)
 
   printf("----------END BLOCK SERIALIZATION TEST----------\n\n\n");
 
-  // printf("----------START TEST OPENSSL----------\n");
-  // const char *s = "Rosetta code";
-  // unsigned char *d = SHA256(s, strlen(s), 0);
+  printf("----------START TEST OPENSSL----------\n");
+  const char *s = "Rosetta code";
+  unsigned char *test_sha = SHA256(s, strlen(s), 0);
 
-  // printf("Affichage SHA256: \n");
-  // for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
-  // {
-  //   printf("%02x ", d[i]);
-  // }
-  // printf("\n");
+  printf("Affichage SHA256: \n");
+  for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
+  {
+    printf("%02x ", test_sha[i]);
+  }
+  printf("\n");
 
-  // printf("Affichage de notre SHA256: \n");
-  // char *s2 = "Rosetta code";
-  // unsigned char *res = hash_sha256(s2);
-  // for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
-  // {
-  //   printf("%02x", res[i]);
-  // }
-  // printf("\n");
-  // printf("%ld\n", sizeof(unsigned char));
-  // free(res);
+  printf("Affichage de notre SHA256: \n");
+  char *s2 = "Rosetta code";
+  unsigned char *res = hash_sha256(s2);
+  unsigned char *res2 = hash_sha256(s2);
+  for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
+  {
+    printf("%02x ", res[i]);
+  }
+  printf("\n");
+
+  printf("%ld\n", sizeof(unsigned char));
+  free(res);
+
+  printf("----------END TEST OPENSSL----------\n");
 
   // printf("----------DEBUT COMPARAISON----------\n");
   // clock_t temps_initial, temps_final;

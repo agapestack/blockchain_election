@@ -4,6 +4,8 @@
     "miller_rabin.h": "c",
     "keys.h": "c",
     "keys_struct.h": "c",
-    "linked_list.h": "c"
+    "linked_list.h": "c",
+    "vote.h": "c",
+    "tree.h": "c"
   }
 }

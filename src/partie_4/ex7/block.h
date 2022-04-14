@@ -18,6 +18,8 @@ void write_block(char* file_name, Block *b);
 Block* read_block(char *file_name);
 char* block_to_str(Block *block);
 
+void print_hash(unsigned char *hash);
+
 unsigned char* hash_sha256(char* str);
 void compute_proof_of_work(Block *B, int d);
 int verify_block(Block *b, int d);
