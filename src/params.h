@@ -20,9 +20,11 @@
 #define NB_TEST_EX3 1000
 
 // EXERCICE 4
-#define NB_KEYS 20000                // Nombre de personnes enregistre aux elections / declaration de vote
-#define NB_CANDIDATS 12              // Nombre de candidats parmis les personnes enregistre
+#define NB_KEYS 200                // Nombre de personnes enregistre aux elections / declaration de vote
+#define NB_CANDIDATS 4              // Nombre de candidats parmis les personnes enregistre
 
+// EXERCICE 6
+#define NB_TEST_FINDPOSITION 20
 
 // FICHIERS
 #define FILE_KEYS "./data/keys.txt"                

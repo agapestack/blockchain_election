@@ -138,7 +138,7 @@ HashTable *create_hashtable(CellKey *list_key, int size)
     exit(12);
   res->size = size;
   res->tab = (HashCell **)malloc(sizeof(HashCell(*)) * size);
-  if(!res->tab)
+  if (!res->tab)
     exit(12);
 
   for (int i = 0; i < size; i++)
@@ -173,7 +173,8 @@ void delete_hashtable(HashTable *t)
 {
   for (int i = 0; i < t->size; i++)
   {
-    if(t->tab[i]->key != NULL) {
+    if (t->tab[i]->key != NULL)
+    {
       // liberation cle --> delete list key
       // liberation hashcell
       free(t->tab[i]);
@@ -185,44 +186,53 @@ void delete_hashtable(HashTable *t)
   free(t);
 }
 
-Key* compute_winner(CellProtected* decl, CellKey *candidates, CellKey* voters, int sizeC, int sizeV) {
+Key *compute_winner(CellProtected *decl, CellKey *candidates, CellKey *voters, int sizeC, int sizeV)
+{
   HashTable *hc = create_hashtable(candidates, sizeC);
   HashTable *hv = create_hashtable(voters, sizeV);
+  printf("1\n");
 
   CellProtected *cursor = decl;
-  while(cursor) {
-    Key* pKey_electeur = cursor->data->pKey;
-    int position_electeur = find_position(hv, pKey_electeur);
-
-    // Verification de si l'electeur a deja voter
-    if(hv->tab[position_electeur] != 0) { 
-      continue;
-    }
-    
-    Key* pKey_cand = str_to_key(cursor->data->declaration_vote);
+  while (cursor)
+  {
+    Key *pKey_electeur = cursor->data->pKey;
+    Key *pKey_cand = str_to_key(cursor->data->declaration_vote);
     int position_candidat = find_position(hc, pKey_cand);
-    // si on ne trouve pas le candidat dans la liste des candidats
-    if(position_candidat == -1) {
-      continue;
+    int position_electeur = find_position(hv, pKey_electeur);
+    printf("%d\t%d\n", position_candidat, position_electeur);
+    printf("2\n");
+    // Verification de la validite du vote (electeur n'a pas deja voter, candidat dans la liste) et comptabilisation du vote
+    if (hv->tab[position_electeur] == 0 && position_candidat != -1)
+    {
+      hc->tab[position_candidat]->val += 1;
+      hv->tab[position_electeur]->val += 1;
     }
-
-    // on a passe les conditions on comptabilise maintenant le vote
-    hc->tab[position_candidat]->val += 1;
-    hv->tab[position_electeur]->val += 1;
-
+    printf("3\n");
     cursor = cursor->next;
   }
+
+  printf("4\n");
 
   int position_gagnant = 0;
   int nb_vote = hc->tab[0]->val;
 
-  // On part du principe qu'il n'y a pas d'egalite
-  for(int i=1; i < sizeC; i++) {
-    if(hc->tab[i]->val > nb_vote) {
+  // Affichage du nombres de voix par candidats #TF1 et determinisation du gagnant (on suppose qu'il n'y a pas d'egalite)
+  for(int i=0; i < sizeC; i++) {
+
+    char *str_key = key_to_str(hc->tab[i]->key);
+
+    printf("Cle candidat: %s\tNombre de voix: %d\n", str_key, hc->tab[i]->val);
+    free(str_key);
+
+    if (hc->tab[i]->val > nb_vote)
+    {
       nb_vote = hc->tab[i]->val;
       position_gagnant = i;
     }
+
   }
+  printf("test\n");
+
 
   return hc->tab[position_gagnant]->key;
 }
