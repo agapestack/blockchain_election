@@ -46,9 +46,6 @@ ex8: $(EX8)/ex8.c $(OBJ)/tree.o $(OBJ)/block.o $(OBJ)/hash.o $(OBJ)/linked_list.
 ex9: $(EX9)/ex9.c $(OBJ)/vote.o $(OBJ)/tree.o $(OBJ)/block.o $(OBJ)/hash.o $(OBJ)/linked_list.o $(OBJ)/keys_struct.o $(OBJ)/keys.o $(OBJ)/miller_rabin.o $(OBJ)/keys.o
 	gcc $^ -o $(BIN)/ex8.bin $(CFLAGS)
 
-$(OBJ)/block.o: $(EX7)/block.c
-	gcc -c $^ -o $@ $(CFLAGS)
-
 $(OBJ)/miller_rabin.o: $(EX1)/miller_rabin.c
 	gcc -c $^ -o $@
 

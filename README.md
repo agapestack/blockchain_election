@@ -3,6 +3,7 @@
 ## Note aux correcteurs
 
 > De nombreuses options peuvent être facilement changer depuis le fichier params.h
+> Attention à partie de l'ex7, un nombre trop important de clés dans un bloc peut créer des segmentation fault (block_to_str prend trop de mémoire, il faudrait borner le nombre de déclarations par bloc --> à améliroer);
 
 ```bash
 sudo chmod +x run.sh

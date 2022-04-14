@@ -12,8 +12,7 @@
 void delete_block(Block *b)
 {
   free(b->author);
-  // free(b->hash);
-  // free(b->previous_hash);
+
   while (b->votes)
   {
     CellProtected *tmp = b->votes;
