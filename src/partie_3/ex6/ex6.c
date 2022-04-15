@@ -51,17 +51,21 @@ int main(void)
   // free(list_decla);
   printf("----------END TEST HASH FUNCTIONS----------\n");
 
-  // printf("----------START COMPUTE WINNER TEST----------\n");
-  // // lc == liste candidat
-  // CellKey **lc = read_public_keys(FILE_CANDIDATES);
-  // // lv == liste votant
-  // CellKey **lv = read_public_keys(FILE_KEYS);
-  // // ld == liste declaration
-  // CellProtected **ld = read_protected(FILE_DECLARATIONS);
+  printf("----------START COMPUTE WINNER TEST----------\n");
+  // lc == liste candidat
+  CellKey **lc = read_public_keys(FILE_CANDIDATES);
+  // lv == liste votant
+  CellKey **lv = read_public_keys(FILE_KEYS);
+  // ld == liste declaration
+  CellProtected **ld = read_protected(FILE_DECLARATIONS);
 
-  // Key *winner_key = compute_winner(*ld, *lc, *lv, NB_CANDIDATS, NB_KEYS);
+  Key *winner_key = compute_winner(*ld, *lc, *lv, NB_CANDIDATS, NB_KEYS);
 
-  // printf("----------END COMPUTE WINNER TEST----------\n");
+  delete_list_protected(ld);
+  delete_list_keys(lc);
+  delete_list_keys(lv);
+
+  printf("----------END COMPUTE WINNER TEST----------\n");
 
   return 0;
 }
