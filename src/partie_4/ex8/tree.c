@@ -139,9 +139,9 @@ CellTree *highest_child(CellTree *cell)
 
 CellTree *last_node(CellTree *tree)
 {
-  if (tree == NULL)
+  if (tree->firstChild == NULL)
   {
-    return tree->father;
+    return tree;
   }
   CellTree *mx_child = highest_child(tree);
 
@@ -149,4 +149,33 @@ CellTree *last_node(CellTree *tree)
   CellTree *res = last_node(child);
 
   return res;
+}
+
+// Fusion en O(1) => On peut utiliser une liste doublement chainee, comme ca on aura l'adresses du derniner element de la premiere liste
+CellProtected **merge_list_decla(CellProtected **l1, CellProtected **l2)
+{
+  if (l1 == NULL)
+    return l2;
+  if (l2 == NULL)
+    return l1;
+  else
+  {
+    CellProtected *cursor = *l1;
+    while (cursor->next)
+    {
+      cursor = cursor->next;
+    }
+    cursor->next = *l2;
+  }
+  return l1;
+}
+
+// On suppose que tree est la racine
+CellProtected **longest_list_decla(CellTree *tree)
+{
+  // if (tree->firstChild == NULL){
+  //   return tree->block->votes;
+  // }
+  // CellTree *mx_child = highest_child(tree);
+  // CellProtected** res = merge_list_decla(longest_list_decla(mx_child));
 }
