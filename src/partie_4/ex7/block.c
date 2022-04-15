@@ -163,6 +163,7 @@ void print_hash(unsigned char *hash)
   printf("\n");
 }
 
+// 1 byte = 2 hexa, 1 byte = 8 bits, 
 void compute_proof_of_work(Block *B, int d)
 {
   int nonce = 0;
@@ -177,25 +178,21 @@ void compute_proof_of_work(Block *B, int d)
     unsigned char *new_hash = hash_sha256(block_str);
     free(block_str);
 
-    print_hash(new_hash);
+    // print_hash(new_hash);
     free(B->hash);
     B->hash = new_hash;
 
     // verification du nombre de 0 au debut de val_hash_block
-    for (int i = 0; i < d; i++)
-    {
-      if (((int) new_hash[i]) != 0)
-      {
-        break;
-      }
-      else
-      {
-        compteur += 1;
-      }
+    if(d % 2 == 0) {  // d pair --> on verifie que les d/2 premier octets sont des 0 (car 2 hexa par octet)
+
+    } else {
+      
     }
+    
 
     if (compteur == d)
     {
+      print_hash(new_hash);
       return;
     }
 

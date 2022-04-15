@@ -31,8 +31,8 @@ int main(void)
 
   printf("-----START COMPUTE_PROOF_OF_WORK (BE PATIENT)-----\n\n");
   int d = 3;
-  compute_proof_of_work(b, d);
-  printf("nonce = %d\td = %d\n", b->nonce, d);
+  compute_proof_of_work(b, D_VALUE);
+  printf("nonce = %d\td = %d\n", b->nonce, D_VALUE);
   printf("-----END COMPUTE_PROOF_OF_WORK-----\n\n");
 
   write_block(FILE_BLOCKS, b);
@@ -43,7 +43,7 @@ int main(void)
 
   printf("-----START BLOCK_TO_STR-----\n\n");
   char *str_b = block_to_str(b_read);
-  printf("%s\n", str_b);
+  // printf("%s\n", str_b);
   printf("-----END BLOCK_TO_STR-----\n\n");
 
   free(str_b);
@@ -73,7 +73,6 @@ int main(void)
   }
   printf("\n");
 
-  printf("%ld\n", sizeof(unsigned char));
   free(res);
 
   printf("----------END TEST OPENSSL----------\n");
@@ -81,31 +80,9 @@ int main(void)
   // printf("----------DEBUT COMPARAISON----------\n");
   // clock_t temps_initial, temps_final;
   // double temps_cpu, tps_1, tps_2, tps_cpu_last_prime;
-  // int i = 0, save_time = 0;
-  // int last_prime = 2;
+  
 
-  // temps_cpu = 0;
-  // while (temps_cpu < 0.002)
-  // {
-  //   temps_initial = clock();
-  //   if (is_prime_naive(i) == 1)
-  //   {
-  //     last_prime = i;
-  //     save_time = 1;
-  //   }
-  //   temps_final = clock();
-  //   temps_cpu = ((double)(temps_final - temps_initial)) / CLOCKS_PER_SEC;
 
-  //   if (save_time == 1 && temps_cpu < 0.002)
-  //   {
-  //     printf("Nombre premier trouvé: %d\ttemps=%f\n", last_prime, temps_cpu);
-  //     tps_cpu_last_prime = temps_cpu;
-  //     save_time = 0;
-  //   }
-
-  //   i++;
-  // }
-  // printf("Dernier nombre premier trouver en 2ms par is_prime_naive: %d\ttemps=%fs\n", last_prime, tps_cpu_last_prime);
   // printf("----------FIN COMPARAISON----------\n\n\n");
 
   return 0;
