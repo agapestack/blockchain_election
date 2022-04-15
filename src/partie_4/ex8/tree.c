@@ -174,8 +174,9 @@ CellProtected **merge_list_decla(CellProtected **l1, CellProtected **l2)
 CellProtected **longest_list_decla(CellTree *tree)
 {
   // if (tree->firstChild == NULL){
-  //   return tree->block->votes;
+  //   return  tree->block->votes;
   // }
   // CellTree *mx_child = highest_child(tree);
-  // CellProtected** res = merge_list_decla(longest_list_decla(mx_child));
+  // CellProtected** = longest_list_decla(mx_child);
+  // CellProtected** res = merge_list_decla();
 }
