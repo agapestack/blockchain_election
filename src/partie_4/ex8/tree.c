@@ -42,11 +42,13 @@ void add_child(CellTree *father, CellTree *child)
   }
   else
   {
+    // obtention du dernier fils
     CellTree *last_son = father->firstChild;
     while (last_son->nextBro != NULL)
     {
       last_son = last_son->nextBro;
     }
+    // placement du fils a la fin de la liste chainee des fils
     last_son->nextBro = child;
   }
 
@@ -61,57 +63,48 @@ void add_child(CellTree *father, CellTree *child)
   return;
 }
 
-// on suppose que ct est la racine;
+// on suppose que ct est la racine, pas de frère;
 void print_tree(CellTree *ct)
 {
   if (ct == NULL)
     return;
 
-  CellTree *cursor = ct;
-  char *block = block_to_str(cursor->block);
+  CellTree *firstBro, *firstChild;
+  firstBro = ct->nextBro;
+  firstChild = ct->firstChild;
 
-  printf("Hauteur du bloc %s = %d\n", block, cursor->height);
-  CellTree *child = cursor->firstChild;
-  print_tree(child);
+  // affichage de la cellule courante
+  printf("Hauteur: %5d\tHash: %s\n", ct->height, ct->block->hash);
 
-  CellTree *bros = child->nextBro;
-  while (bros)
-  {
-    char *bros_block = block_to_str(bros->block);
-    printf("Hauteur du bloc fere %s = %d\n", bros_block, bros->height);
-    bros = bros->nextBro;
-    free(bros_block);
-  }
+  // appel recursif sur le premier frere et le premier fils
+  print_tree(firstChild);
+  print_tree(firstBro);
 
-  free(block);
+  return;
 }
 
-void delete_node(CellTree *node)
+void delete_tree_cell(CellTree *node)
 {
   delete_block(node->block);
   free(node);
 }
 
-// on suppose que ct est la racine;
 void delete_tree(CellTree *ct)
 {
-  CellTree *node = ct;
-  if (node == NULL)
-  {
+  if (!ct)
     return;
-  }
 
-  CellTree *child = node->firstChild;
-  delete_tree(child);
+  CellTree *firstBro, *firstChild;
 
-  CellTree *bros = child->nextBro;
-  while (bros)
-  {
-    CellTree *tmp = bros;
-    bros = bros->nextBro;
-    delete_node(bros);
-  }
-  delete_node(child);
+  firstBro = ct->nextBro;
+  firstChild = ct->firstChild;
+
+  // supression du blcok associe a ct
+  delete_tree_cell(ct);
+  // appel recursif sur le premier frere et le premier fils
+  delete_tree(firstBro);
+  delete_tree(firstChild);
+
   return;
 }
 
@@ -119,19 +112,18 @@ void delete_tree(CellTree *ct)
 CellTree *highest_child(CellTree *cell)
 {
   CellTree *child = cell->firstChild;
-  int mx_height = child->height;
-  CellTree *res;
-  res = NULL;
+  int max_height = child->height;
+  CellTree *res = NULL;
 
-  CellTree *bros = child->nextBro;
-  while (bros)
+  // on compare la hauteur de tous les fils et on renvoi celui qui a la plus grande
+  while (child)
   {
-    if (bros->height > mx_height)
+    if (child->height > max_height)
     {
-      mx_height = bros->height;
-      res = bros;
+      max_height = child->height;
+      res = child;
     }
-    bros = bros->nextBro;
+    child = child->nextBro;
   }
 
   return res;
@@ -143,40 +135,45 @@ CellTree *last_node(CellTree *tree)
   {
     return tree;
   }
-  CellTree *mx_child = highest_child(tree);
+  CellTree *max_child = highest_child(tree);
 
-  CellTree *child = mx_child->firstChild;
-  CellTree *res = last_node(child);
+  CellTree *res = last_node(max_child->firstChild);
 
   return res;
 }
 
-// Fusion en O(1) => On peut utiliser une liste doublement chainee, comme ca on aura l'adresses du derniner element de la premiere liste
+// Fusion en O(1) => On peut utiliser une liste doublement chainee, comme ca on aura l'adresses du derniner element de la premiere liste, sinon on range la liste simplement chainee dans une structure contenant un pointeur vers la tete et le dernier element de la liste chainee
 CellProtected **merge_list_decla(CellProtected **l1, CellProtected **l2)
 {
   if (l1 == NULL)
     return l2;
   if (l2 == NULL)
     return l1;
-  else
+
+  CellProtected *cursor = *l1;
+  while (cursor->next)
   {
-    CellProtected *cursor = *l1;
-    while (cursor->next)
-    {
-      cursor = cursor->next;
-    }
-    cursor->next = *l2;
+    cursor = cursor->next;
   }
+  cursor->next = *l2;
+
   return l1;
 }
 
-// On suppose que tree est la racine
+// on suppose que le premier appel est bien sur la racine --> pas besoin de se charger des freres
 CellProtected **longest_list_decla(CellTree *tree)
 {
-  // if (tree->firstChild == NULL){
-  //   return  tree->block->votes;
-  // }
-  // CellTree *mx_child = highest_child(tree);
-  // CellProtected** = longest_list_decla(mx_child);
-  // CellProtected** res = merge_list_decla();
+  if(!tree)
+    return NULL;
+
+  CellProtected **res = (CellProtected**)malloc(sizeof(CellProtected*));
+  if(!res)
+    exit(12);
+
+  *res = tree->block->votes;
+  CellTree *max_child = highest_child(tree);
+  CellProtected **to_merge = longest_list_decla(max_child);
+  merge_list_decla(res, to_merge);
+
+  return res;
 }

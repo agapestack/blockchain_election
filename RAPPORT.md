@@ -5,6 +5,8 @@
 >Le projet consiste a mettre en place le chiffrement RSA et un système de vote sécurisée.
 
 [lien github](https://github.com/agapestack/DS-03)
+[Diagramme Projet](https://lucid.app/lucidchart/09da7f81-cc88-4c69-97cc-8545a1a5a7e3/edit?invitationId=inv_86bc76c3-aa8f-46d3-884c-62309c636448)
+[Diagramme RSA](https://lucid.app/lucidchart/3994c860-4bfe-426a-a402-b438ee768f34/edit?invitationId=inv_3c3363ad-aafd-48cb-a39b-f2f11a771be7)
 
 **Partie 1**: Mise en place du RSA
 **Partie 2**: Implementation du RSA avec les bases du systeme de vote (serialisation/deserialisation)

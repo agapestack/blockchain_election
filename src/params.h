@@ -32,8 +32,11 @@
 #define FILE_COMPARAISON_EXPONENTIATION "./data/comparaison_exponentiation.txt"
 #define FILE_BLOCKS "./data/blocks.txt"
 #define FILE_BLOCKS_TEST "./data/blocks_test.txt"
-#define FILE_PENDING_VOTES "./data/pending_votes.txt"
-#define FILE_PENDING_BLOCK "./data/pending_block.txt"
-#define DIR_BLOCK "./blockchain/"
+
+// FICHIERS EX9
+#define DIR_BLOCKCHAIN "./blockchain/"
+#define FILE_PENDING_VOTES "./blockchain/pending_votes.txt"
+#define FILE_PENDING_BLOCK "./blockchain/pending_block.txt"
+
 
 #endif

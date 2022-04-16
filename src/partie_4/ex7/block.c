@@ -167,7 +167,7 @@ void compute_proof_of_work(Block *B, int d)
   str_zero[d] ='\0';
 
   // si la valeur du hash est deja satifaisante ne rien faire
-  if (strncmp(str_zero, B->hash, d) == 0)
+  if (strncmp(str_zero, B->hash, d) == 0 && B->nonce)
   {
     printf("\n");
     free(str_zero);
@@ -202,6 +202,7 @@ void compute_proof_of_work(Block *B, int d)
   }
 }
 
+// retourne 1 si le block est valide 0 sinon
 int verify_block(Block *b, int d)
 {
   char *str_block = block_to_str(b);

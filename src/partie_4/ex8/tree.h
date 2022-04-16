@@ -16,7 +16,7 @@ CellTree *create_node(Block *b);
 int update_height(CellTree *father, CellTree *child);
 void add_child(CellTree *father, CellTree *child);
 void print_tree(CellTree *ct);
-void delete_node(CellTree *node);
+void delete_tree_cell(CellTree *node);
 void delete_tree(CellTree *ct);
 
 CellTree *highest_child(CellTree *cell);
