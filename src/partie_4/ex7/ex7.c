@@ -63,20 +63,18 @@ int main(void)
 
   printf("----------START PROOF_OF_WORK COMPARISON----------\n\n");
   clock_t temps_initial, temps_final;
-  double temps_cpu, temps;
+  double temps_cpu, temps = 0.0;
 
   int d_value = 0;
   while (1)
   {
+    printf("Temps: %fs\tHash trouver pour d = %d: \t", temps, d_value);
     temps_initial = clock();
-
     compute_proof_of_work(b, d_value);
     temps_final = clock();
     temps = ((double)(temps_final - temps_initial)) / CLOCKS_PER_SEC;
 
-    printf("Temps: %fs\tHash trouver pour d = %d: \t", temps, d_value);
-
-    if(temps > 1)
+    if (temps > 1)
     {
       break;
     }

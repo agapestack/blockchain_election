@@ -26,9 +26,6 @@
 // EXERCICE 6
 #define NB_TEST_FINDPOSITION 20
 
-// EXERCICE 7
-#define D_VALUE 1
-
 // FICHIERS
 #define FILE_KEYS "./data/keys.txt"                
 #define FILE_CANDIDATES "./data/candidates.txt"

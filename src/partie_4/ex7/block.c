@@ -158,20 +158,26 @@ char *hash_sha256(char *str)
 
 void compute_proof_of_work(Block *B, int d)
 {
-  int nonce = 0;
-  int compteur = 0;
-
   // generation d'une chaine pour la comparaison
-  char *str_zero = (char *)malloc(sizeof(char) * (d+1));
+  char *str_zero = (char *)malloc(sizeof(char) * (d + 1));
   for (int i = 0; i < d; i++)
   {
     str_zero[i] = '0';
   }
-  str_zero[d] = '\0';
+  str_zero[d] ='\0';
 
+  // si la valeur du hash est deja satifaisante ne rien faire
   if (strncmp(str_zero, B->hash, d) == 0)
+  {
+    printf("\n");
+    free(str_zero);
     return;
+  }
 
+  // pour test verify block
+  // printf("VERIFY BLOCK = %d\n", verify_block(B, d));
+
+  int nonce = 0;
   while (1)
   {
     B->nonce = nonce;
@@ -186,6 +192,8 @@ void compute_proof_of_work(Block *B, int d)
     if (strncmp(str_zero, B->hash, d) == 0)
     {
       printf("%s\n", B->hash);
+      // pour test verify block
+      // printf("VERIFY BLOCK = %d\n", verify_block(B, d));
       free(str_zero);
       return;
     }
@@ -205,5 +213,5 @@ int verify_block(Block *b, int d)
     str_zero[i] = '0';
   }
 
-  return 1;
+  return strncmp(str_zero, b->hash, d) == 0;
 }
