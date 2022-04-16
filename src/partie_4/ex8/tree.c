@@ -35,6 +35,8 @@ int update_height(CellTree *father, CellTree *child)
 // ajoute un child, update tous les noeuds ascendants(avant)
 void add_child(CellTree *father, CellTree *child)
 {
+  if(!father || !child)
+    return;
   // placement du fils
   if (father->firstChild == NULL)
   {
@@ -131,6 +133,10 @@ CellTree *highest_child(CellTree *cell)
 
 CellTree *last_node(CellTree *tree)
 {
+  if (!tree)
+  {
+    return NULL;
+  }
   if (tree->firstChild == NULL)
   {
     return tree;
@@ -163,11 +169,11 @@ CellProtected **merge_list_decla(CellProtected **l1, CellProtected **l2)
 // on suppose que le premier appel est bien sur la racine --> pas besoin de se charger des freres
 CellProtected **longest_list_decla(CellTree *tree)
 {
-  if(!tree)
+  if (!tree)
     return NULL;
 
-  CellProtected **res = (CellProtected**)malloc(sizeof(CellProtected*));
-  if(!res)
+  CellProtected **res = (CellProtected **)malloc(sizeof(CellProtected *));
+  if (!res)
     exit(12);
 
   *res = tree->block->votes;

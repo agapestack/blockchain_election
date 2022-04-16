@@ -158,6 +158,8 @@ char *hash_sha256(char *str)
 
 void compute_proof_of_work(Block *B, int d)
 {
+  if(!B)
+    return;
   // generation d'une chaine pour la comparaison
   char *str_zero = (char *)malloc(sizeof(char) * (d + 1));
   for (int i = 0; i < d; i++)
@@ -167,7 +169,7 @@ void compute_proof_of_work(Block *B, int d)
   str_zero[d] ='\0';
 
   // si la valeur du hash est deja satifaisante ne rien faire
-  if (strncmp(str_zero, B->hash, d) == 0 && B->nonce)
+  if (B->hash && strncmp(str_zero, B->hash, d) == 0 && B->nonce)
   {
     printf("\n");
     free(str_zero);

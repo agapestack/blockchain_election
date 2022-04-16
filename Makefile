@@ -28,7 +28,7 @@ ex2: $(EX2)/ex2.c $(OBJ)/keys.o $(OBJ)/miller_rabin.o
 ex3: $(EX3)/ex3.c $(OBJ)/keys_struct.o $(OBJ)/keys.o $(OBJ)/miller_rabin.o $(OBJ)/keys.o
 	gcc $^ -o $(BIN)/ex3.bin
 
-ex4: $(EX4)/ex4.c $(OBJ)/keys_struct.o $(OBJ)/keys.o $(OBJ)/miller_rabin.o $(OBJ)/keys.o
+ex4: $(EX4)/ex4.c $(OBJ)/generate_data.o $(OBJ)/keys_struct.o $(OBJ)/keys.o $(OBJ)/miller_rabin.o $(OBJ)/keys.o
 	gcc $^ -o $(BIN)/ex4.bin
 
 ex5: $(EX5)/ex5.c $(OBJ)/linked_list.o $(OBJ)/keys_struct.o $(OBJ)/keys.o $(OBJ)/miller_rabin.o $(OBJ)/keys.o
@@ -40,10 +40,13 @@ ex6: $(EX6)/ex6.c	$(OBJ)/hash.o $(OBJ)/linked_list.o $(OBJ)/keys_struct.o $(OBJ)
 ex7: $(EX7)/ex7.c $(OBJ)/block.o $(OBJ)/hash.o $(OBJ)/linked_list.o $(OBJ)/keys_struct.o $(OBJ)/keys.o $(OBJ)/miller_rabin.o $(OBJ)/keys.o
 	gcc $^ -o $(BIN)/ex7.bin $(CFLAGS)
 
-ex9: $(EX9)/ex9.c $(OBJ)/vote.o $(OBJ)/tree.o $(OBJ)/block.o $(OBJ)/hash.o $(OBJ)/linked_list.o $(OBJ)/keys_struct.o $(OBJ)/keys.o $(OBJ)/miller_rabin.o $(OBJ)/keys.o
+ex9: $(EX9)/ex9.c $(OBJ)/vote.o $(OBJ)/tree.o $(OBJ)/block.o $(OBJ)/hash.o $(OBJ)/linked_list.o $(OBJ)/generate_data.o $(OBJ)/keys_struct.o $(OBJ)/keys.o $(OBJ)/miller_rabin.o $(OBJ)/keys.o
 	gcc $^ -o $(BIN)/ex9.bin $(CFLAGS)
 
 $(OBJ)/miller_rabin.o: $(EX1)/miller_rabin.c
+	gcc -c $^ -o $@
+
+$(OBJ)/generate_data.o: $(EX4)/generate_data.c
 	gcc -c $^ -o $@
 
 $(OBJ)/keys.o: $(EX2)/keys.c

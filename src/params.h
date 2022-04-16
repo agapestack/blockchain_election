@@ -25,6 +25,11 @@
 // EXERCICE 6
 #define NB_TEST_FINDPOSITION 20
 
+// EXERCICE 9
+#define MOCK_NB_VOTERS 10
+#define MOCK_NB_CANDIDATS 1
+#define D_VALUE 2
+
 // FICHIERS
 #define FILE_KEYS "./data/keys.txt"
 #define FILE_CANDIDATES "./data/candidates.txt"

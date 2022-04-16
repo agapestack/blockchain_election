@@ -6,6 +6,7 @@
 #include "../../params.h"
 #include "./vote.h"
 
+// Ajoute au fichier pending_votes la declaration de vote associe a p
 void submit_vote(Protected *p)
 {
   if (!p)
@@ -32,17 +33,35 @@ void create_block(CellTree *tree, Key *author, int d)
   CellProtected **list_protected = read_protected(FILE_PENDING_VOTES);
   // suppression du fichier des votes en attentes
   remove(FILE_PENDING_VOTES);
-
   CellTree *dernier_node = last_node(tree);
   // initialisation du block
   b->author = author;
-  b->previous_hash = dernier_node->block->hash;
+  if (!dernier_node)
+  {
+    b->previous_hash = NULL;
+  }
+  else
+  {
+    b->previous_hash = dernier_node->block->hash;
+  }
+  b->hash = NULL;
+  b->nonce = 0;
+
   b->votes = *list_protected;
   // calcul de nonce et de hash
   compute_proof_of_work(b, d);
 
+  // char *tmp_block = block_to_str(b);
+  // printf("%s\n", tmp_block);
+  // free(tmp_block);
+
   write_block(FILE_PENDING_BLOCK, b);
-  delete_block(b);
+
+  // Ajout d'un noeud contenant le block dans tree
+  CellTree *nouv_tree = create_node(b);
+  // print_tree(nouv_tree);
+  add_child(dernier_node, nouv_tree);
+  // delete_block(b);
 
   return;
 }
@@ -92,7 +111,7 @@ CellTree *read_tree()
     }
   }
 
-  // ----------ETAPE 1----------
+  // ----------ETAPE 1: creation du tableau contenant les noeuds de l'arbre----------
   // Allocation T: tableau de pointeur sur arbre
   CellTree **T = (CellTree **)malloc(sizeof(CellTree *) * nb_block_file);
   if (!T)
@@ -120,7 +139,7 @@ CellTree *read_tree()
   }
   closedir(rep);
 
-  // ----------ETAPE 2----------
+  // ----------ETAPE 2: Ajout des liens peres/fils entres les noeuds du tableau T----------
   for (int i = 0; i < nb_block_file; i++)
   {
     for (int j = 0; j < nb_block_file; j++)
@@ -133,7 +152,7 @@ CellTree *read_tree()
     }
   }
 
-  // ----------ETAPE 3----------
+  // ----------ETAPE 3: Extraction de la racine du tableau T----------
   CellTree *racine = NULL;
   for (int i = 0; i < nb_block_file; i++)
   {
@@ -147,6 +166,24 @@ CellTree *read_tree()
 }
 
 Key *compute_winner_BT(CellTree *tree, CellKey *candidates, CellKey *voters, int sizeC, int sizeV)
-{ 
-  
+{
+  // ----------ETAPE 1: Extraction de la liste des declarations de vote----------
+  // on prend le fils le plus profond (car on recupere les blocs de la chaine la plus longues --> règle de confiance)
+  CellTree *dernier_child = highest_child(tree);
+  CellProtected **list_decla = NULL;
+
+  while (dernier_child)
+  {
+    // fusion de la liste de declaration du fils avec cell du pere
+    list_decla = merge_list_decla(list_decla, &dernier_child->block->votes);
+    // On passe au pere
+    dernier_child = dernier_child->father;
+  }
+
+  // ----------ETAPE 2: Suppression des declarations de vote non valide----------
+  verify_list_protected(list_decla);
+
+  // ----------ETAPE 3: Declaration du vainqueur de l'election----------
+  Key *res = compute_winner(*list_decla, candidates, voters, sizeC, sizeV);
+  return res;
 }
