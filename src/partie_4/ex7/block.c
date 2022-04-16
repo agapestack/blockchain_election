@@ -12,6 +12,8 @@
 void delete_block(Block *b)
 {
   free(b->author);
+  free(b->hash);
+  free(b->previous_hash);
 
   while (b->votes)
   {
@@ -63,8 +65,9 @@ Block *read_block(char *file_name)
   Block *b = (Block *)malloc(sizeof(Block));
   if (!b)
     exit(12);
-  char buffer[512];
 
+  // char *buffer = (char *)malloc(sizeof(char) * 512);
+  char buffer[512];
   // recuperation cle
   fgets(buffer, 512, fic);
   Key *key = str_to_key(buffer);
@@ -140,59 +143,50 @@ char *block_to_str(Block *block)
   return res;
 }
 
-unsigned char *hash_sha256(char *str)
+char *hash_sha256(char *str)
 {
-  unsigned char *res = (char *)malloc(sizeof(char) * 256);
-  char *tmp = SHA256(str, strlen(str), 0);
+  char *res = (char *)malloc(sizeof(char) * 256);
+  unsigned char *tmp = SHA256(str, strlen(str), 0);
 
   for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
   {
-    // sprintf(res + 2 * i, "%02x", tmp[i]);)
-    res[i] = tmp[i];
+    sprintf(res + 2 * i, "%02x", tmp[i]);
   }
 
   return res;
 }
 
-void print_hash(unsigned char *hash)
-{
-  for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
-  {
-    printf("%02x ", hash[i]);
-  }
-  printf("\n");
-}
-
-// 1 byte = 2 hexa, 1 byte = 8 bits, 
 void compute_proof_of_work(Block *B, int d)
 {
   int nonce = 0;
+  int compteur = 0;
+
+  // generation d'une chaine pour la comparaison
+  char *str_zero = (char *)malloc(sizeof(char) * (d+1));
+  for (int i = 0; i < d; i++)
+  {
+    str_zero[i] = '0';
+  }
+  str_zero[d] = '\0';
+
+  if (strncmp(str_zero, B->hash, d) == 0)
+    return;
 
   while (1)
   {
-    int compteur = 0;
-
     B->nonce = nonce;
-
     char *block_str = block_to_str(B);
     unsigned char *new_hash = hash_sha256(block_str);
     free(block_str);
-
-    // print_hash(new_hash);
+    // printf("%s\n", new_hash);
     free(B->hash);
     B->hash = new_hash;
 
     // verification du nombre de 0 au debut de val_hash_block
-    if(d % 2 == 0) {  // d pair --> on verifie que les d/2 premier octets sont des 0 (car 2 hexa par octet)
-
-    } else {
-      
-    }
-    
-
-    if (compteur == d)
+    if (strncmp(str_zero, B->hash, d) == 0)
     {
-      print_hash(new_hash);
+      printf("%s\n", B->hash);
+      free(str_zero);
       return;
     }
 
@@ -205,10 +199,10 @@ int verify_block(Block *b, int d)
   char *str_block = block_to_str(b);
   unsigned char *hash_block = hash_sha256(str_block);
 
+  char *str_zero = (char *)malloc(sizeof(char) * d);
   for (int i = 0; i < d; i++)
   {
-    if (hash_block[i] != '0')
-      return 0;
+    str_zero[i] = '0';
   }
 
   return 1;
