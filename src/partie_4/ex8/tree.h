@@ -1,7 +1,9 @@
 #ifndef __TREE__
 #define __TREE__
 
+#include "../../params.h"
 #include "../ex7/block.h"
+#include "../../partie_2/ex4/generate_data.h"
 
 typedef struct block_tree_cell
 {
@@ -13,9 +15,12 @@ typedef struct block_tree_cell
 } CellTree;
 
 CellTree *create_node(Block *b);
+
 int update_height(CellTree *father, CellTree *child);
 void add_child(CellTree *father, CellTree *child);
+void print_node(CellTree *node);
 void print_tree(CellTree *ct);
+void print_clean_tree(CellTree *ct, int max_height);
 void delete_tree_cell(CellTree *node);
 void delete_tree(CellTree *ct);
 

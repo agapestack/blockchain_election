@@ -7,4 +7,7 @@
 int is_in(int* tab, int val, int size);
 void generate_random_data(int nv, int nc);
 
+// meme fonction que generate_random_data mais avec des emplacements de fichiers differents, uniquement utilises pour l'ex 8...
+void generate_random_data_test(int nv, int nc);
+
 #endif

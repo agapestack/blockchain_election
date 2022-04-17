@@ -15,7 +15,7 @@ EX7=./src/partie_4/ex7
 EX8=./src/partie_4/ex8
 EX9=./src/partie_5/ex9
 
-all: ex1 ex2 ex3 ex4 ex5 ex6 ex7 ex9
+all: ex1 ex2 ex3 ex4 ex5 ex6 ex7 ex8 ex9
 
 # Pas très propre pour les .o --> à améliorer si possible
 
@@ -39,6 +39,9 @@ ex6: $(EX6)/ex6.c	$(OBJ)/hash.o $(OBJ)/linked_list.o $(OBJ)/keys_struct.o $(OBJ)
 
 ex7: $(EX7)/ex7.c $(OBJ)/block.o $(OBJ)/hash.o $(OBJ)/linked_list.o $(OBJ)/keys_struct.o $(OBJ)/keys.o $(OBJ)/miller_rabin.o $(OBJ)/keys.o
 	gcc $^ -o $(BIN)/ex7.bin $(CFLAGS)
+
+ex8: $(EX8)/ex8.c $(OBJ)/tree.o $(OBJ)/block.o $(OBJ)/hash.o $(OBJ)/linked_list.o $(OBJ)/generate_data.o $(OBJ)/keys_struct.o $(OBJ)/keys.o $(OBJ)/miller_rabin.o $(OBJ)/keys.o
+	gcc $^ -o $(BIN)/ex8.bin $(CFLAGS)
 
 ex9: $(EX9)/ex9.c $(OBJ)/vote.o $(OBJ)/tree.o $(OBJ)/block.o $(OBJ)/hash.o $(OBJ)/linked_list.o $(OBJ)/generate_data.o $(OBJ)/keys_struct.o $(OBJ)/keys.o $(OBJ)/miller_rabin.o $(OBJ)/keys.o
 	gcc $^ -o $(BIN)/ex9.bin $(CFLAGS)
@@ -74,6 +77,6 @@ clean:
 	rm ./obj/*.o
 
 mrproper: clean
-	rm ./data/*
-	rm ./bin/*
+	rm ./data/*.txt
+	rm ./bin/*.bin
 

@@ -21,9 +21,11 @@ CellTree *create_node(Block *b)
   return ct;
 }
 
-// nouvelle hauteur = max(current_height, child_height + 1)
+// 0: pas changer 1: changer              nouvelle hauteur = max(current_height, child_height + 1)
 int update_height(CellTree *father, CellTree *child)
 {
+  if (!father || !child)
+    return 0;
   int dbt_hauteur = father->height;
 
   if ((child->height + 1) > father->height)
@@ -35,33 +37,37 @@ int update_height(CellTree *father, CellTree *child)
 // ajoute un child, update tous les noeuds ascendants(avant)
 void add_child(CellTree *father, CellTree *child)
 {
-  if(!father || !child)
+  if (!father || !child)
+  {
     return;
-  // placement du fils
-  if (father->firstChild == NULL)
-  {
-    father->firstChild = child;
-  }
-  else
-  {
-    // obtention du dernier fils
-    CellTree *last_son = father->firstChild;
-    while (last_son->nextBro != NULL)
-    {
-      last_son = last_son->nextBro;
-    }
-    // placement du fils a la fin de la liste chainee des fils
-    last_son->nextBro = child;
   }
 
+  // on annonce au fils qu'il a un père
+  child->father = father;
+  // on annonce au pere qu'il a un autre fils
+  child->nextBro = father->firstChild;
+  father->firstChild = child;
+
+  CellTree *tmp_father, *tmp_child;
+  tmp_father = father;
+  tmp_child = child;
   // update de la hauteur
-  CellTree *to_update = father;
-  while (to_update)
+  while (tmp_father)
   {
-    update_height(to_update, child);
-    to_update = to_update->father;
+    update_height(tmp_father, tmp_child);
+    tmp_father = tmp_father->father;
+    tmp_child = tmp_child->father;
   }
+  update_height(father, child);
 
+  return;
+}
+
+void print_node(CellTree *node)
+{
+  if (!node)
+    return;
+  printf("Hauteur: %2d %s\n", node->height, node->block->hash);
   return;
 }
 
@@ -75,12 +81,34 @@ void print_tree(CellTree *ct)
   firstBro = ct->nextBro;
   firstChild = ct->firstChild;
 
-  // affichage de la cellule courante
-  printf("Hauteur: %5d\tHash: %s\n", ct->height, ct->block->hash);
+  // affichage de la cellule courant
+  print_node(ct);
 
   // appel recursif sur le premier frere et le premier fils
   print_tree(firstChild);
   print_tree(firstBro);
+
+  return;
+}
+
+void print_clean_tree(CellTree *ct, int max_height)
+{
+  if (ct == NULL)
+    return;
+
+  CellTree *firstBro, *firstChild;
+  firstBro = ct->nextBro;
+  firstChild = ct->firstChild;
+
+  // affichage de la cellule courant
+  for(int i = max_height; i > ct->height; i--) {
+    printf("\t");
+  }
+  print_node(ct);
+
+  // appel recursif sur le premier frere et le premier fils
+  print_clean_tree(firstChild, max_height);
+  print_clean_tree(firstBro, max_height);
 
   return;
 }
@@ -113,7 +141,13 @@ void delete_tree(CellTree *ct)
 // On suppose que cell est la racine
 CellTree *highest_child(CellTree *cell)
 {
+  if (!cell)
+    return NULL;
+
   CellTree *child = cell->firstChild;
+  if (!child)
+    return cell;
+
   int max_height = child->height;
   CellTree *res = NULL;
 
@@ -141,11 +175,16 @@ CellTree *last_node(CellTree *tree)
   {
     return tree;
   }
+  printf("t1\n");
   CellTree *max_child = highest_child(tree);
-
-  CellTree *res = last_node(max_child->firstChild);
-
-  return res;
+  if (max_child)
+  {
+    return last_node(max_child->firstChild);
+  }
+  else
+  {
+    return NULL;
+  }
 }
 
 // Fusion en O(1) => On peut utiliser une liste doublement chainee, comme ca on aura l'adresses du derniner element de la premiere liste, sinon on range la liste simplement chainee dans une structure contenant un pointeur vers la tete et le dernier element de la liste chainee

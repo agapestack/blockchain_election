@@ -25,6 +25,7 @@ void submit_vote(Protected *p)
 }
 void create_block(CellTree *tree, Key *author, int d)
 {
+  printf("NEW BLOCK\n");
   Block *b = (Block *)malloc(sizeof(Block));
   if (!b)
     exit(12);
@@ -33,7 +34,9 @@ void create_block(CellTree *tree, Key *author, int d)
   CellProtected **list_protected = read_protected(FILE_PENDING_VOTES);
   // suppression du fichier des votes en attentes
   remove(FILE_PENDING_VOTES);
+
   CellTree *dernier_node = last_node(tree);
+
   // initialisation du block
   b->author = author;
   if (!dernier_node)
@@ -61,6 +64,7 @@ void create_block(CellTree *tree, Key *author, int d)
   CellTree *nouv_tree = create_node(b);
   // print_tree(nouv_tree);
   add_child(dernier_node, nouv_tree);
+
   // delete_block(b);
 
   return;
@@ -147,7 +151,7 @@ CellTree *read_tree()
       // si T[j] est un fil des T[i], on ajoute
       if (strcmp(T[i]->block->hash, T[j]->block->previous_hash) == 0)
       {
-        add_child(T[i], T[j]);
+        add_child((T[i]), T[j]);
       }
     }
   }
@@ -186,4 +190,27 @@ Key *compute_winner_BT(CellTree *tree, CellKey *candidates, CellKey *voters, int
   // ----------ETAPE 3: Declaration du vainqueur de l'election----------
   Key *res = compute_winner(*list_decla, candidates, voters, sizeC, sizeV);
   return res;
+}
+
+CellTree *create_root(Key *author, int d)
+{
+  printf("ROOT\n");
+  CellTree *tree = NULL;
+  Block *b_racine = (Block *)malloc(sizeof(Block));
+  CellProtected **list_protected = read_protected(FILE_PENDING_VOTES);
+  if (!b_racine || !list_protected)
+    exit(12);
+
+  b_racine->author = author;
+  b_racine->hash = NULL;
+  b_racine->previous_hash = NULL;
+  b_racine->votes = *list_protected;
+  b_racine->nonce = 0;
+  remove(FILE_PENDING_VOTES);
+  compute_proof_of_work(b_racine, D_VALUE);
+  // write_block(FILE_PENDING_BLOCK, b_racine);
+  tree = create_node(b_racine);
+  print_tree(tree);
+
+  return tree;
 }

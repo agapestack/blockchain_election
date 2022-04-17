@@ -25,8 +25,13 @@
 // EXERCICE 6
 #define NB_TEST_FINDPOSITION 20
 
+// EXERCICE 8
+#define FILE_TEST_KEYS "./data/test_ex8_keys.txt"
+#define FILE_TEST_CANDIDATES "./data/test_ex8_candidates.txt"
+#define FILE_TEST_DECLARATIONS "./data/test_ex8_declarations.txt"
+
 // EXERCICE 9
-#define MOCK_NB_VOTERS 10
+#define MOCK_NB_VOTERS 100
 #define MOCK_NB_CANDIDATS 1
 #define D_VALUE 2
 

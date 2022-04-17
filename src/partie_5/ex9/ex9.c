@@ -33,6 +33,7 @@ int main(void)
   printf("----------START SOUMISSION VOTES----------\n");
   CellTree *tree = NULL;
   CellProtected *cursor = *list_decla;
+  int has_root = 0;
 
   int taille_block = 0;
   while (cursor)
@@ -43,14 +44,18 @@ int main(void)
     cursor = cursor->next;
     if (taille_block == 10 || !cursor)
     {
-      // on remet le compteur a 0;
       taille_block = 0;
-      // creation du block a partie du fichier pending_block contenant au plus 10 declaration
-      create_block(tree, pKey, D_VALUE);
+      if(has_root == 0) {
+        has_root = 1;
+        tree = create_root(pKey, D_VALUE);
+      } else {
+        create_block(tree, pKey, D_VALUE);
+      }    
     }
   }
+  printf("FINAL TREE: \n");
   print_tree(tree);
-  delete_tree(tree);
+  // delete_tree(tree);
 
   printf("----------END SOUMISSION VOTES----------\n");
 
