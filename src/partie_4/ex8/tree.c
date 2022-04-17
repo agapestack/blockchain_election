@@ -141,25 +141,22 @@ void delete_tree(CellTree *ct)
 // On suppose que cell est la racine
 CellTree *highest_child(CellTree *cell)
 {
-  if (!cell)
+  if (!cell || !cell->firstChild)
     return NULL;
 
-  CellTree *child = cell->firstChild;
-  if (!child)
-    return cell;
+  CellTree *res = cell->firstChild;
+  int max_height = res->height;
 
-  int max_height = child->height;
-  CellTree *res = NULL;
-
+  CellTree *cursor = res->nextBro;
   // on compare la hauteur de tous les fils et on renvoi celui qui a la plus grande
-  while (child)
+  while (cursor)
   {
-    if (child->height > max_height)
+    if (cursor->height > max_height)
     {
-      max_height = child->height;
-      res = child;
+      max_height = cursor->height;
+      res = cursor;
     }
-    child = child->nextBro;
+    cursor = cursor->nextBro;
   }
 
   return res;
@@ -171,20 +168,13 @@ CellTree *last_node(CellTree *tree)
   {
     return NULL;
   }
-  if (tree->firstChild == NULL)
+  if (!tree->firstChild)
   {
     return tree;
   }
-  printf("t1\n");
+
   CellTree *max_child = highest_child(tree);
-  if (max_child)
-  {
-    return last_node(max_child->firstChild);
-  }
-  else
-  {
-    return NULL;
-  }
+  return last_node(max_child);
 }
 
 // Fusion en O(1) => On peut utiliser une liste doublement chainee, comme ca on aura l'adresses du derniner element de la premiere liste, sinon on range la liste simplement chainee dans une structure contenant un pointeur vers la tete et le dernier element de la liste chainee
