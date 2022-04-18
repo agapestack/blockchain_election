@@ -59,16 +59,16 @@ void write_block(char *file_name, Block *b)
 // Renvoie le block correspondant au fichier avec une liste chaine de declaration de votes inverser car on insere en tete dans notre liste chainee (ordre inversee mais meme donne donc pas de probleme)
 Block *read_block(char *file_name)
 {
+  printf("DEBUT READ BLOCK\n");
   FILE *fic = fopen(file_name, "r");
-  if (!fic)
-    exit(12);
   Block *b = (Block *)malloc(sizeof(Block));
-  if (!b)
+  if (!b || !fic)
     exit(12);
 
   // char *buffer = (char *)malloc(sizeof(char) * 512);
   char buffer[512];
   // recuperation cle
+  
   fgets(buffer, 512, fic);
   Key *key = str_to_key(buffer);
 
@@ -112,6 +112,7 @@ Block *read_block(char *file_name)
   free(res);
 
   fclose(fic);
+  printf("FIN READ BLOCK\n");
   return b;
 }
 

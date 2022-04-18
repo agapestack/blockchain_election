@@ -25,7 +25,6 @@ void submit_vote(Protected *p)
 }
 void create_block(CellTree *tree, Key *author, int d)
 {
-  printf("NEW BLOCK\n");
   Block *b = (Block *)malloc(sizeof(Block));
   if (!b)
     exit(12);
@@ -45,7 +44,13 @@ void create_block(CellTree *tree, Key *author, int d)
   }
   else
   {
-    b->previous_hash = dernier_node->block->hash;
+    // todo: strcpy dernier hash
+    b->previous_hash = (char*)malloc(sizeof(char) * strlen(dernier_node->block->hash) + 1);
+
+    for(int i=0; i < strlen(dernier_node->block->hash); i++) {
+      b->previous_hash[i] = dernier_node->block->hash[i];
+    }
+    b->previous_hash[strlen(b->previous_hash)] = '\0';
   }
   b->hash = NULL;
   b->nonce = 0;
@@ -83,7 +88,8 @@ void add_block(int d, char *name)
     if (!fic)
       exit(12);
 
-    write_block(strcat(DIR_BLOCKCHAIN, name), b);
+    printf("%s\n", name);
+    write_block(name, b);
 
     fclose(fic);
   }
@@ -192,13 +198,12 @@ Key *compute_winner_BT(CellTree *tree, CellKey *candidates, CellKey *voters, int
   return res;
 }
 
-CellTree *create_root(Key *author, int d)
+CellTree *init_tree(Key *author, int d)
 {
-  printf("ROOT\n");
   CellTree *tree = NULL;
   Block *b_racine = (Block *)malloc(sizeof(Block));
   CellProtected **list_protected = read_protected(FILE_PENDING_VOTES);
-  if (!b_racine || !list_protected)
+  if (!b_racine)
     exit(12);
 
   b_racine->author = author;
@@ -206,11 +211,29 @@ CellTree *create_root(Key *author, int d)
   b_racine->previous_hash = NULL;
   b_racine->votes = *list_protected;
   b_racine->nonce = 0;
+
   remove(FILE_PENDING_VOTES);
-  compute_proof_of_work(b_racine, D_VALUE);
-  // write_block(FILE_PENDING_BLOCK, b_racine);
+  compute_proof_of_work(b_racine, d);
+  write_block(FILE_PENDING_BLOCK, b_racine);
   tree = create_node(b_racine);
-  print_tree(tree);
+  // print_tree(tree);
 
   return tree;
+}
+
+char *generate_uuid()
+{
+  char *buffer = (char *)malloc(sizeof(char) * 256);
+  if (!buffer)
+    exit(12);
+
+  char random_str[16];
+  for (int i = 0; i < 15; i++)
+  {
+    random_str[i] = rand() % 10 + 'a';
+  }
+
+  snprintf(buffer, 256, "%s%s.dat", DIR_BLOCKCHAIN, random_str);
+
+  return buffer;
 }

@@ -73,10 +73,13 @@ $(OBJ)/tree.o: $(EX8)/tree.c
 $(OBJ)/vote.o: $(EX9)/vote.c
 	gcc -c $^ -o $@
 
-clean:
-	rm ./obj/*.o
 
+clean:
+	rm -f ./data/*.txt
+	rm -f ./blockchain/pending/*.txt
+	rm -f ./blockchain/*.dat	
+	
 mrproper: clean
-	rm ./data/*.txt
-	rm ./bin/*.bin
+	rm -f ./obj/*.o
+	rm -f ./bin/*.bin
 

@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#include <unistd.h>
 
 #include "./vote.h"
 
 int main(void)
 {
+  srand(time(NULL));
 
   // ----------ETAPE 1: GENERATION DATA
   printf("----------START GENERATION DATA----------\n");
@@ -42,18 +45,26 @@ int main(void)
     taille_block += 1;
 
     cursor = cursor->next;
-    if (taille_block == 10 || !cursor)
+    if (taille_block == NB_VOTE_PER_BLOCK || !cursor)
     {
       taille_block = 0;
-      if(has_root == 0) {
-        has_root = 1;
-        tree = create_root(pKey, D_VALUE);
-      } else {
+      if (has_root == 0)
+      {
+        has_root += 1;
+        tree = init_tree(pKey, D_VALUE);
+      }
+      else
+      {
         create_block(tree, pKey, D_VALUE);
-      }    
+      }
+      sleep(1);
+      char *tmp_name = generate_uuid();
+      add_block(D_VALUE, tmp_name);
+      free(tmp_name);
     }
   }
-  printf("FINAL TREE: \n");
+
+  printf("\n\nTREE: \n");
   print_tree(tree);
   // delete_tree(tree);
 

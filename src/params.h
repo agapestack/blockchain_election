@@ -31,9 +31,10 @@
 #define FILE_TEST_DECLARATIONS "./data/test_ex8_declarations.txt"
 
 // EXERCICE 9
-#define MOCK_NB_VOTERS 100
+#define MOCK_NB_VOTERS 50
 #define MOCK_NB_CANDIDATS 1
-#define D_VALUE 2
+#define NB_VOTE_PER_BLOCK 10
+#define D_VALUE 3
 
 // FICHIERS
 #define FILE_KEYS "./data/keys.txt"
@@ -45,8 +46,8 @@
 
 // FICHIERS EX9
 #define DIR_BLOCKCHAIN "./blockchain/"
-#define FILE_PENDING_VOTES "./blockchain/pending_votes.txt"
-#define FILE_PENDING_BLOCK "./blockchain/pending_block.txt"
+#define FILE_PENDING_VOTES "./blockchain/pending/pending_votes.txt"
+#define FILE_PENDING_BLOCK "./blockchain/pending/pending_block.txt"
 
 
 #endif
