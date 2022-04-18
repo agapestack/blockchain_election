@@ -55,3 +55,5 @@ Dernier nombre premier trouver en 2ms par is_prime_naive: 235813        temps=0.
 
 ## Conclusion
 
+> « La folie, c’est de faire toujours la même chose et de s’attendre à un résultat différent »
+> Albert Einstein

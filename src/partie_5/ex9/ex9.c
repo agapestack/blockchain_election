@@ -57,7 +57,6 @@ int main(void)
       {
         create_block(tree, pKey, D_VALUE);
       }
-      sleep(1);
       char *tmp_name = generate_uuid();
       add_block(D_VALUE, tmp_name);
       free(tmp_name);
@@ -66,10 +65,27 @@ int main(void)
 
   printf("\n\nTREE: \n");
   print_tree(tree);
-  delete_tree(tree);
+
+  delete_list_protected(list_decla);
+
 
   printf("----------END SOUMISSION VOTES----------\n");
+  printf("----------START TEST READ TREE----------\n");
 
+  CellTree *t = read_tree();
+  printf("\n\nTREE: \n");
+  print_tree(t);
+
+  printf("----------END TEST READ TREE----------\n");
+  printf("----------START COMPUTE WINNER TREE----------\n");
+
+  Key *winner = compute_winner_BT(t, *list_cand, *list_voters, MOCK_NB_CANDIDATS, MOCK_NB_VOTERS);
+
+  printf("----------START COMPUTE WINNER TREE----------\n\n\n");
+
+  // delete_tree(tree);
+  delete_list_keys(list_voters);
+  delete_list_keys(list_cand);
   free(pKey);
   free(sKey);
 

@@ -12,7 +12,7 @@
 #define NB_PREMIER_MILLER_RABIN 20       // Nombre de nombre premier genere aleatoirement puis tester dans l'ex1
 
 // EXERCICE 2
-#define NB_TEST_EX2 100000 // Nombre de test encrypt/decrypt
+#define NB_TEST_EX2 20000 // Nombre de test encrypt/decrypt
 #define TAILLE_CHAINE 16   // Taille des chaines generee aleatoirement pour les tests
 
 // EXERCICE 3
@@ -32,9 +32,9 @@
 
 // EXERCICE 9
 #define MOCK_NB_VOTERS 50
-#define MOCK_NB_CANDIDATS 1
+#define MOCK_NB_CANDIDATS 2
 #define NB_VOTE_PER_BLOCK 10
-#define D_VALUE 3
+#define D_VALUE 2
 
 // FICHIERS
 #define FILE_KEYS "./data/keys.txt"

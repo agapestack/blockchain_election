@@ -7,6 +7,7 @@
 #include "../../partie_3/ex6/hash.h"
 #include "../../partie_2/ex3/keys_struct.h"
 #include "../../partie_2/ex4/generate_data.h"
+#include <openssl/sha.h>
 
 void submit_vote(Protected *p);
 void create_block(CellTree *tree, Key *author, int d);

@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-lssl -lcrypto
+CFLAGS=-lssl -lcrypto -lm
 
 BIN=./bin
 OBJ=./obj

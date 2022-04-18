@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include <dirent.h>
 
 #include "../../params.h"
@@ -25,6 +26,7 @@ void submit_vote(Protected *p)
 }
 void create_block(CellTree *tree, Key *author, int d)
 {
+  printf("DEBUT CREATE BLOCK\n");
   Block *b = (Block *)malloc(sizeof(Block));
   if (!b)
     exit(12);
@@ -44,8 +46,12 @@ void create_block(CellTree *tree, Key *author, int d)
   }
   else
   {
-    b->previous_hash = NULL;
-    // memcpy(b->previous_hash, dernier_node->block->hash, strlen(dernier_node->block->hash) + 1);
+    // copie en dur du previous hash pour éviter les problemes de liberation de memoire
+    b->previous_hash = (unsigned char*)malloc(sizeof(unsigned char) * (SHA256_DIGEST_LENGTH + 1));
+    for(int i=0; i < SHA256_DIGEST_LENGTH; i++) {
+      b->previous_hash[i] = dernier_node->block->hash[i];
+    }
+    b->previous_hash[SHA256_DIGEST_LENGTH] = '\0';
   }
   b->hash = NULL;
   b->nonce = 0;
@@ -66,7 +72,7 @@ void create_block(CellTree *tree, Key *author, int d)
   add_child(dernier_node, nouv_tree);
 
   // delete_block(b);
-
+  printf("FIN CREATE BLOCK\n");
   return;
 }
 
@@ -105,17 +111,12 @@ CellTree *read_tree()
   if (!rep)
     exit(12);
 
-  int nb_block_file = 0;
 
   // compter le nombre de fichier block
-  while ((dir = readdir(rep)))
-  {
-    if (strcmp(dir->d_name, ".") != 0 && strcmp(dir->d_name, "..") != 0)
-    {
-      nb_block_file += 1;
-    }
-  }
+  int nb_block_file = ceil(MOCK_NB_VOTERS / NB_VOTE_PER_BLOCK);
+  printf("Nombre de Blocks dans le repertoire blockchain: %d\n", nb_block_file);
 
+  
   // ----------ETAPE 1: creation du tableau contenant les noeuds de l'arbre----------
   // Allocation T: tableau de pointeur sur arbre
   CellTree **T = (CellTree **)malloc(sizeof(CellTree *) * nb_block_file);
@@ -130,12 +131,11 @@ CellTree *read_tree()
   // on met les noeuds associes aux blocks contenus dans les fichiers dans le tableau T
   while ((dir = readdir(rep)))
   {
-    if (strcmp(dir->d_name, ".") != 0 && strcmp(dir->d_name, "..") != 0)
+    // si on a un fichier
+    if (dir->d_type == DT_REG)
     {
-      // printf("Chemin du fichier: ./blockchain/%s\n", dir->d_name);
-
       // recuperation du block
-      Block *b = read_block(dir->d_name);
+      Block *b = read_block(strcat(strdup(DIR_BLOCKCHAIN), dir->d_name));
       // creation du noeud associé
       CellTree *ct = create_node(b);
       // stockage dans le tableau
@@ -143,7 +143,6 @@ CellTree *read_tree()
     }
   }
   closedir(rep);
-
   // ----------ETAPE 2: Ajout des liens peres/fils entres les noeuds du tableau T----------
   for (int i = 0; i < nb_block_file; i++)
   {
@@ -166,6 +165,7 @@ CellTree *read_tree()
       racine = T[i];
     }
   }
+  free(T);
 
   return racine;
 }

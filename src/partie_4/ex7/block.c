@@ -59,28 +59,46 @@ void write_block(char *file_name, Block *b)
 // Renvoie le block correspondant au fichier avec une liste chaine de declaration de votes inverser car on insere en tete dans notre liste chainee (ordre inversee mais meme donne donc pas de probleme)
 Block *read_block(char *file_name)
 {
-  printf("DEBUT READ BLOCK\n");
+  printf("DEBUT READ BLOCK SUR %s\n", file_name);
   FILE *fic = fopen(file_name, "r");
   Block *b = (Block *)malloc(sizeof(Block));
   if (!b || !fic)
     exit(12);
 
-  // char *buffer = (char *)malloc(sizeof(char) * 512);
   char buffer[512];
   // recuperation cle
-  
   fgets(buffer, 512, fic);
+  printf("%s\n", buffer);
   Key *key = str_to_key(buffer);
 
   // recuperation hash
+  unsigned char *hash = NULL;
   fgets(buffer, 512, fic);
-  unsigned char *hash = strdup(buffer);
-  hash[strlen(hash) - 1] = '\0';
+  buffer[strlen(buffer) - 1] = '\0';
+  // printf("buffer %s\n", buffer);
+  if (buffer)
+  {
+    hash = (unsigned char *)malloc(sizeof(unsigned char) * (SHA256_DIGEST_LENGTH + 1));
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
+    {
+      hash[i] = buffer[i];
+    }
+    hash[SHA256_DIGEST_LENGTH] = '\0';
+  }
 
   // recuperation previous_hash
   fgets(buffer, 512, fic);
-  unsigned char *previous_hash = strdup(buffer);
-  previous_hash[strlen(previous_hash) - 1] = '\0';
+  buffer[strlen(buffer) - 1] = '\0';
+  unsigned char *previous_hash = NULL;
+  if (buffer)
+  {
+    previous_hash = (unsigned char *)malloc(sizeof(unsigned char) * (SHA256_DIGEST_LENGTH + 1));
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
+    {
+      previous_hash[i] = buffer[i];
+    }
+    previous_hash[SHA256_DIGEST_LENGTH] = '\0';
+  }
 
   // recuperation nonce
   fgets(buffer, 512, fic);
@@ -122,14 +140,13 @@ char *block_to_str(Block *block)
 
   char *key_str = key_to_str(block->author);
   sprintf(buffer, "%s\n%s\n", key_str, block->previous_hash);
-
   free(key_str);
 
+  
   CellProtected *cursor = block->votes;
   while (cursor)
   {
     char *pr_str = protected_to_str(cursor->data);
-
     sprintf(buffer + strlen(buffer), "%s\n", pr_str);
     free(pr_str);
     cursor = cursor->next;
@@ -138,7 +155,6 @@ char *block_to_str(Block *block)
   char str_nonce[256];
   sprintf(str_nonce, "%d", block->nonce);
   strcat(buffer, str_nonce);
-
   char *res;
   res = strdup(buffer);
   return res;
@@ -159,7 +175,7 @@ char *hash_sha256(char *str)
 
 void compute_proof_of_work(Block *B, int d)
 {
-  if(!B)
+  if (!B)
     return;
   // generation d'une chaine pour la comparaison
   char *str_zero = (char *)malloc(sizeof(char) * (d + 1));
@@ -167,7 +183,7 @@ void compute_proof_of_work(Block *B, int d)
   {
     str_zero[i] = '0';
   }
-  str_zero[d] ='\0';
+  str_zero[d] = '\0';
 
   // si la valeur du hash est deja satifaisante ne rien faire
   if (B->hash && strncmp(str_zero, B->hash, d) == 0 && B->nonce)

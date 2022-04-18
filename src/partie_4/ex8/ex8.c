@@ -40,6 +40,7 @@ int main(void)
   {
     tab_node[i] = create_node(tab_block[i]);
   }
+  printf("test\n");
 
   for(int i=0; i < NB_BLOCKS; i++) {
     printf("tab_node[%d] = ", i);

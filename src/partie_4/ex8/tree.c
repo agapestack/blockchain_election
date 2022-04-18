@@ -138,6 +138,24 @@ void delete_tree(CellTree *ct)
   return;
 }
 
+void delete_tree_v2(CellTree *ct) {
+    if (!ct)
+    return;
+
+  CellTree *firstBro, *firstChild;
+
+  firstBro = ct->nextBro;
+  firstChild = ct->firstChild;
+
+  // supression du blcok associe a ct
+  delete_tree_cell(ct);
+  // appel recursif sur le premier frere et le premier fils
+  delete_tree(firstBro);
+  delete_tree(firstChild);
+
+  return;
+}
+
 // On suppose que cell est la racine
 CellTree *highest_child(CellTree *cell)
 {

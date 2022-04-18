@@ -23,16 +23,15 @@ int main(void)
 
   // // on met des donnees random juste pour test
   b->author = pKey;
-  b->hash = strdup("");
+  b->hash = strdup("test_hash");
   b->nonce = 0;
-  b->previous_hash = strdup("");
+  b->previous_hash = strdup("test_previous_hash");
   b->votes = *lp;
   free(lp);
 
   write_block(FILE_BLOCKS, b);
 
   Block *b_read = read_block(FILE_BLOCKS);
-
   write_block(FILE_BLOCKS_TEST, b_read);
 
   printf("-----START BLOCK_TO_STR-----\n\n");

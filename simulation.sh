@@ -1,4 +1,5 @@
 #!/bin/bash
 make mrproper
 make
-./run.sh -t 9
+# valgrind --leak-check=full ./bin/ex9.bin 
+./run.sh 9
