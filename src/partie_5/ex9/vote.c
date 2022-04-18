@@ -44,13 +44,8 @@ void create_block(CellTree *tree, Key *author, int d)
   }
   else
   {
-    // todo: strcpy dernier hash
-    b->previous_hash = (char*)malloc(sizeof(char) * strlen(dernier_node->block->hash) + 1);
-
-    for(int i=0; i < strlen(dernier_node->block->hash); i++) {
-      b->previous_hash[i] = dernier_node->block->hash[i];
-    }
-    b->previous_hash[strlen(b->previous_hash)] = '\0';
+    b->previous_hash = NULL;
+    // memcpy(b->previous_hash, dernier_node->block->hash, strlen(dernier_node->block->hash) + 1);
   }
   b->hash = NULL;
   b->nonce = 0;
@@ -230,8 +225,10 @@ char *generate_uuid()
   char random_str[16];
   for (int i = 0; i < 15; i++)
   {
-    random_str[i] = rand() % 10 + 'a';
+    random_str[i] = rand() % 26 + 'a';
   }
+  random_str[15] = '\0';
+
 
   snprintf(buffer, 256, "%s%s.dat", DIR_BLOCKCHAIN, random_str);
 

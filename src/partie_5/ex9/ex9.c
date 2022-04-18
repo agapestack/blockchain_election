@@ -66,13 +66,10 @@ int main(void)
 
   printf("\n\nTREE: \n");
   print_tree(tree);
-  // delete_tree(tree);
+  delete_tree(tree);
 
   printf("----------END SOUMISSION VOTES----------\n");
 
-  delete_list_keys(list_cand);
-  delete_list_keys(list_voters);
-  delete_list_protected(list_decla);
   free(pKey);
   free(sKey);
 
