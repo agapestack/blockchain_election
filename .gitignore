@@ -1,5 +1,5 @@
 ./bin/*
 ./data/*
 ./obj/*
-./blockchain/*
+./blockchain/*.dat
 ./blockchain/pending/*
