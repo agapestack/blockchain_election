@@ -68,7 +68,6 @@ int main(void)
 
   delete_list_protected(list_decla);
 
-
   printf("----------END SOUMISSION VOTES----------\n");
   printf("----------START TEST READ TREE----------\n");
 
@@ -83,7 +82,7 @@ int main(void)
 
   printf("----------START COMPUTE WINNER TREE----------\n\n\n");
 
-  // delete_tree(tree);
+  delete_tree(tree);
   delete_list_keys(list_voters);
   delete_list_keys(list_cand);
   free(pKey);
