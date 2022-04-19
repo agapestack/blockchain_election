@@ -233,7 +233,7 @@ int verify_block(Block *b, int d)
     str_zero[i] = '0';
   }
 
-  res = (strncmp(str_zero, b->hash, d) == 0);
+  res = strncmp(str_zero, b->hash, d);
 
   free(str_block);
   free(hash_block);

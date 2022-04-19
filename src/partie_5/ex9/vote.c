@@ -83,7 +83,7 @@ void add_block(int d, char *name)
   if (!b)
     return;
 
-  if (verify_block(b, d) == 1)
+  if (verify_block(b, d) == 0)
   { // le bloc est valide
     // creation du fichier
     FILE *fic = fopen(name, "w");
@@ -137,12 +137,8 @@ CellTree *read_tree()
     {
       // recuperation du block
       char tmp[255];
-      char *tmp2 = DIR_BLOCKCHAIN;
-      for (int i = 0; i < strlen(DIR_BLOCKCHAIN); i++)
-      {
-        tmp[i] = tmp2[i];
-      }
-      tmp[strlen(DIR_BLOCKCHAIN) - 1] = '\0';
+      strcpy(tmp, DIR_BLOCKCHAIN);
+      tmp[strlen(tmp) - 1] = '\0';
 
       Block *b = read_block(strcat(tmp, dir->d_name));
       // creation du noeud associé
