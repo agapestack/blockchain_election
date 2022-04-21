@@ -47,8 +47,9 @@ void create_block(CellTree *tree, Key *author, int d)
   else
   {
     // copie en dur du previous hash pour éviter les problemes de liberation de memoire
-    b->previous_hash = (unsigned char*)malloc(sizeof(unsigned char) * (SHA256_DIGEST_LENGTH + 1));
-    for(int i=0; i < SHA256_DIGEST_LENGTH; i++) {
+    b->previous_hash = (unsigned char *)malloc(sizeof(unsigned char) * (SHA256_DIGEST_LENGTH + 1));
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
+    {
       b->previous_hash[i] = dernier_node->block->hash[i];
     }
     b->previous_hash[SHA256_DIGEST_LENGTH] = '\0';
@@ -82,7 +83,7 @@ void add_block(int d, char *name)
   if (!b)
     return;
 
-  if (verify_block(b, d) == 1)
+  if (verify_block(b, d) == 0)
   { // le bloc est valide
     // creation du fichier
     FILE *fic = fopen(name, "w");
@@ -101,6 +102,8 @@ void add_block(int d, char *name)
 
   // suppression du fichier
   remove(FILE_PENDING_BLOCK);
+  // suppression du bloc
+  delete_block(b);
   return;
 }
 
@@ -111,12 +114,10 @@ CellTree *read_tree()
   if (!rep)
     exit(12);
 
-
   // compter le nombre de fichier block
   int nb_block_file = ceil(MOCK_NB_VOTERS / NB_VOTE_PER_BLOCK);
   printf("Nombre de Blocks dans le repertoire blockchain: %d\n", nb_block_file);
 
-  
   // ----------ETAPE 1: creation du tableau contenant les noeuds de l'arbre----------
   // Allocation T: tableau de pointeur sur arbre
   CellTree **T = (CellTree **)malloc(sizeof(CellTree *) * nb_block_file);
@@ -135,7 +136,11 @@ CellTree *read_tree()
     if (dir->d_type == DT_REG)
     {
       // recuperation du block
-      Block *b = read_block(strcat(strdup(DIR_BLOCKCHAIN), dir->d_name));
+      char tmp[255];
+      strcpy(tmp, DIR_BLOCKCHAIN);
+      tmp[strlen(tmp) - 1] = '\0';
+
+      Block *b = read_block(strcat(tmp, dir->d_name));
       // creation du noeud associé
       CellTree *ct = create_node(b);
       // stockage dans le tableau
@@ -228,7 +233,6 @@ char *generate_uuid()
     random_str[i] = rand() % 26 + 'a';
   }
   random_str[15] = '\0';
-
 
   snprintf(buffer, 256, "%s%s.dat", DIR_BLOCKCHAIN, random_str);
 

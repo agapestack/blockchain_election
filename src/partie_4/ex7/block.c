@@ -142,7 +142,6 @@ char *block_to_str(Block *block)
   sprintf(buffer, "%s\n%s\n", key_str, block->previous_hash);
   free(key_str);
 
-  
   CellProtected *cursor = block->votes;
   while (cursor)
   {
@@ -224,6 +223,7 @@ void compute_proof_of_work(Block *B, int d)
 // retourne 1 si le block est valide 0 sinon
 int verify_block(Block *b, int d)
 {
+  int res;
   char *str_block = block_to_str(b);
   unsigned char *hash_block = hash_sha256(str_block);
 
@@ -233,5 +233,11 @@ int verify_block(Block *b, int d)
     str_zero[i] = '0';
   }
 
-  return strncmp(str_zero, b->hash, d) == 0;
+  res = strncmp(str_zero, b->hash, d);
+
+  free(str_block);
+  free(hash_block);
+  free(str_zero);
+
+  return res;
 }
