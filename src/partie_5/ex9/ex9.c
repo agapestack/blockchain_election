@@ -82,7 +82,9 @@ int main(void)
 
   printf("----------END COMPUTE WINNER TREE----------\n\n\n");
 
-  // delete_tree(t);
+  printf("1\n");
+  delete_tree(t);
+  printf("2\n");
   delete_tree_v2(tree);
   delete_list_protected(list_decla);
   delete_list_keys(list_voters);

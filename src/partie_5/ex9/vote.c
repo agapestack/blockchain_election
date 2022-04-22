@@ -209,7 +209,6 @@ Key *compute_winner_BT(CellTree *tree, CellKey *candidates, CellKey *voters, int
   CellTree *dernier_child = highest_child(tree);
   CellProtected **list_decla = NULL;
 
-  printf("START WHILE\n");
   while (dernier_child)
   {
     // fusion de la liste de declaration du fils avec cell du pere
