@@ -73,6 +73,7 @@ void create_block(CellTree *tree, Key *author, int d)
   add_child(dernier_node, nouv_tree);
 
   // delete_block(b);
+  delete_list_protected(list_protected);
   printf("FIN CREATE BLOCK\n");
   return;
 }
@@ -96,6 +97,7 @@ CellTree *init_tree(Key *author, int d)
   write_block(FILE_PENDING_BLOCK, b_racine);
   tree = create_node(b_racine);
   // print_tree(tree);
+  delete_list_protected(list_protected);
 
   return tree;
 }
@@ -204,9 +206,10 @@ Key *compute_winner_BT(CellTree *tree, CellKey *candidates, CellKey *voters, int
 {
   // ----------ETAPE 1: Extraction de la liste des declarations de vote----------
   // on prend le fils le plus profond (car on recupere les blocs de la chaine la plus longues --> règle de confiance)
+  printf("START STEP 1\n");
   CellTree *dernier_child = highest_child(tree);
   CellProtected **list_decla = NULL;
-
+  printf("START WHILE\n");
   while (dernier_child)
   {
     // fusion de la liste de declaration du fils avec cell du pere
@@ -214,10 +217,11 @@ Key *compute_winner_BT(CellTree *tree, CellKey *candidates, CellKey *voters, int
     // On passe au pere
     dernier_child = dernier_child->father;
   }
-
+  printf("START STEP 2\n");
   // ----------ETAPE 2: Suppression des declarations de vote non valide----------
   verify_list_protected(list_decla);
 
+  printf("START STEP 2\n");
   // ----------ETAPE 3: Declaration du vainqueur de l'election----------
   Key *res = compute_winner(*list_decla, candidates, voters, sizeC, sizeV);
   return res;

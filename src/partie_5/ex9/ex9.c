@@ -57,30 +57,30 @@ int main(void)
       {
         create_block(tree, pKey, D_VALUE);
       }
-    //   char *tmp_name = generate_uuid();
-    //   add_block(D_VALUE, tmp_name);
-    //   free(tmp_name);
+      char *tmp_name = generate_uuid();
+      add_block(D_VALUE, tmp_name);
+      free(tmp_name);
     }
   }
 
-  // printf("\n\nTREE: \n");
-  // print_tree(tree);
-  
+  printf("\n\nTREE: \n");
+  print_tree(tree);
 
+  printf("----------END SOUMISSION VOTES----------\n");
+  printf("----------START TEST READ TREE----------\n");
 
-  // printf("----------END SOUMISSION VOTES----------\n");
-  // printf("----------START TEST READ TREE----------\n");
+  CellTree *t = read_tree();
+  printf("\n\nTREE: \n");
+  print_tree(t);
+  // free(t->block->author);
+  delete_tree(t);
 
-  // CellTree *t = read_tree();
-  // printf("\n\nTREE: \n");
-  // print_tree(t);
+  printf("----------END TEST READ TREE----------\n");
+  printf("----------START COMPUTE WINNER TREE----------\n");
 
-  // printf("----------END TEST READ TREE----------\n");
-  // printf("----------START COMPUTE WINNER TREE----------\n");
+  Key *winner = compute_winner_BT(t, *list_cand, *list_voters, MOCK_NB_CANDIDATS, MOCK_NB_VOTERS);
 
-  // Key *winner = compute_winner_BT(t, *list_cand, *list_voters, MOCK_NB_CANDIDATS, MOCK_NB_VOTERS);
-
-  // printf("----------END COMPUTE WINNER TREE----------\n\n\n");
+  printf("----------END COMPUTE WINNER TREE----------\n\n\n");
 
   delete_tree_v2(tree);
   delete_list_protected(list_decla);

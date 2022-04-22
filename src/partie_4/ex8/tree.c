@@ -101,7 +101,8 @@ void print_clean_tree(CellTree *ct, int max_height)
   firstChild = ct->firstChild;
 
   // affichage de la cellule courant
-  for(int i = max_height; i > ct->height; i--) {
+  for (int i = max_height; i > ct->height; i--)
+  {
     printf("\t");
   }
   print_node(ct);
@@ -115,14 +116,15 @@ void print_clean_tree(CellTree *ct, int max_height)
 
 void delete_tree_cell(CellTree *node)
 {
-  if(!node)
+  if (!node)
     return;
   delete_block(node->block);
   free(node);
 }
 
-void delete_tree_cell_v2(CellTree *node) {
-  if(!node)
+void delete_tree_cell_v2(CellTree *node)
+{
+  if (!node)
     return;
   delete_block_v2(node->block);
   free(node);
@@ -147,8 +149,9 @@ void delete_tree(CellTree *ct)
   return;
 }
 
-void delete_tree_v2(CellTree *ct) {
-    if (!ct)
+void delete_tree_v2(CellTree *ct)
+{
+  if (!ct)
     return;
 
   CellTree *firstBro, *firstChild;
@@ -159,8 +162,8 @@ void delete_tree_v2(CellTree *ct) {
   // supression du blcok associe a ct
   delete_tree_cell_v2(ct);
   // appel recursif sur le premier frere et le premier fils
-  delete_tree(firstBro);
-  delete_tree(firstChild);
+  delete_tree_v2(firstBro);
+  delete_tree_v2(firstChild);
 
   return;
 }
@@ -168,9 +171,11 @@ void delete_tree_v2(CellTree *ct) {
 // On suppose que cell est la racine
 CellTree *highest_child(CellTree *cell)
 {
+  printf("start highest child\n");
   if (!cell || !cell->firstChild)
     return NULL;
 
+  // PROBLEM
   CellTree *res = cell->firstChild;
   int max_height = res->height;
 
@@ -185,7 +190,7 @@ CellTree *highest_child(CellTree *cell)
     }
     cursor = cursor->nextBro;
   }
-
+  printf("end highest child\n");
   return res;
 }
 
