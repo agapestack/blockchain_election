@@ -24,15 +24,11 @@ void delete_block(Block *b)
   free(b);
 }
 
-void delete_block_v2(Block *b) {
+void delete_block_v2(Block *b)
+{
   free(b->hash);
   free(b->previous_hash);
 
-  while(b->votes) {
-    CellProtected *tmp = b->votes;
-    b->votes = b->votes->next;
-    free(tmp);
-  }
   free(b);
 }
 
