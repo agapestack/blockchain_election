@@ -171,11 +171,13 @@ void delete_tree_v2(CellTree *ct)
 // On suppose que cell est la racine
 CellTree *highest_child(CellTree *cell)
 {
-  printf("start highest child\n");
-  if (!cell || !cell->firstChild)
+  if (!cell)
     return NULL;
 
-  // PROBLEM
+  // si pas d'enfant dispo alors on est le last child (cas de base)
+  if (!cell->firstChild)
+    return cell;
+
   CellTree *res = cell->firstChild;
   int max_height = res->height;
 
@@ -190,8 +192,9 @@ CellTree *highest_child(CellTree *cell)
     }
     cursor = cursor->nextBro;
   }
-  printf("end highest child\n");
-  return res;
+
+  // appel recursif
+  return highest_child(res);
 }
 
 CellTree *last_node(CellTree *tree)

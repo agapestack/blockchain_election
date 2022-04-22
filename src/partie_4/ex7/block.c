@@ -133,6 +133,11 @@ Block *read_block(char *file_name)
     pr = str_to_protected(buffer);
     inserer_protected(res, pr);
   }
+  // pour eviter un bug de doublon: 
+  CellProtected *to_del = *res;
+  *res = (*res)->next;
+  delete_cell_protected(to_del);
+  // print_list_protected(*res);
 
   b->votes = *res;
   free(res);

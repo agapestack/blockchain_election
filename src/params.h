@@ -31,8 +31,8 @@
 #define FILE_TEST_DECLARATIONS "./data/test_ex8_declarations.txt"
 
 // EXERCICE 9
-#define MOCK_NB_VOTERS 30
-#define MOCK_NB_CANDIDATS 2
+#define MOCK_NB_VOTERS 1000
+#define MOCK_NB_CANDIDATS 5
 #define NB_VOTE_PER_BLOCK 10
 #define D_VALUE 2
 

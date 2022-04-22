@@ -46,7 +46,7 @@ void verify_list_protected(CellProtected **cp)
   }
 
   pourcentage_erreur = (nb_erreur * 100.0) / (nb_test);
-  printf("Nombre de signatures test: %d\nNombre de signatures invalides supprimées: %d\nPourcentage d'erreur: %.02f%%\n", nb_test, nb_erreur, pourcentage_erreur);
+  printf("Nombre de signatures: %d\nNombre de signatures invalides supprimées: %d\nPourcentage d'erreur: %.02f%%\n", nb_test, nb_erreur, pourcentage_erreur);
   return;
 }
 
