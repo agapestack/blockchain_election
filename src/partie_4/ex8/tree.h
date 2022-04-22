@@ -23,6 +23,9 @@ void print_tree(CellTree *ct);
 void print_clean_tree(CellTree *ct, int max_height);
 void delete_tree_cell(CellTree *node);
 void delete_tree(CellTree *ct);
+// v2 correspondant aux version ou on appel delete_block_v2 (l'enonce a change a la fin de la semaine suivant...)
+void delete_tree_cell_v2(CellTree *node);
+void delete_tree_v2(CellTree *ct);
 
 CellTree *highest_child(CellTree *cell);
 CellTree *last_node(CellTree *tree);

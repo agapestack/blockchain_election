@@ -24,6 +24,18 @@ void delete_block(Block *b)
   free(b);
 }
 
+void delete_block_v2(Block *b) {
+  free(b->hash);
+  free(b->previous_hash);
+
+  while(b->votes) {
+    CellProtected *tmp = b->votes;
+    b->votes = b->votes->next;
+    free(tmp);
+  }
+  free(b);
+}
+
 void write_block(char *file_name, Block *b)
 {
   FILE *fic = fopen(file_name, "w");
@@ -136,7 +148,7 @@ Block *read_block(char *file_name)
 
 char *block_to_str(Block *block)
 {
-  char buffer[65536];
+  char buffer[5096];
 
   char *key_str = key_to_str(block->author);
   sprintf(buffer, "%s\n%s\n", key_str, block->previous_hash);
@@ -146,7 +158,7 @@ char *block_to_str(Block *block)
   while (cursor)
   {
     char *pr_str = protected_to_str(cursor->data);
-    sprintf(buffer + strlen(buffer), "%s\n", pr_str);
+    sprintf(buffer + strlen(buffer) + 1, "%s\n", pr_str);
     free(pr_str);
     cursor = cursor->next;
   }
@@ -154,6 +166,7 @@ char *block_to_str(Block *block)
   char str_nonce[256];
   sprintf(str_nonce, "%d", block->nonce);
   strcat(buffer, str_nonce);
+
   char *res;
   res = strdup(buffer);
   return res;

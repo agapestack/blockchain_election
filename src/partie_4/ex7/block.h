@@ -13,6 +13,8 @@ typedef struct block {
 } Block;
 
 void delete_block(Block *b);
+// delete_block_v2 correspondant a la version ne liberant pas author et les contenu des cellprotected (l'enonce a change a la fin de la semaine suivante)
+void delete_block_v2(Block *b);
 void write_block(char* file_name, Block *b);
 Block* read_block(char *file_name);
 char* block_to_str(Block *block);

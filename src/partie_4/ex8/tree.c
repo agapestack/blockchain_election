@@ -115,7 +115,16 @@ void print_clean_tree(CellTree *ct, int max_height)
 
 void delete_tree_cell(CellTree *node)
 {
+  if(!node)
+    return;
   delete_block(node->block);
+  free(node);
+}
+
+void delete_tree_cell_v2(CellTree *node) {
+  if(!node)
+    return;
+  delete_block_v2(node->block);
   free(node);
 }
 
@@ -148,7 +157,7 @@ void delete_tree_v2(CellTree *ct) {
   firstChild = ct->firstChild;
 
   // supression du blcok associe a ct
-  delete_tree_cell(ct);
+  delete_tree_cell_v2(ct);
   // appel recursif sur le premier frere et le premier fils
   delete_tree(firstBro);
   delete_tree(firstChild);

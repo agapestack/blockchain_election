@@ -77,6 +77,29 @@ void create_block(CellTree *tree, Key *author, int d)
   return;
 }
 
+CellTree *init_tree(Key *author, int d)
+{
+  CellTree *tree = NULL;
+  Block *b_racine = (Block *)malloc(sizeof(Block));
+  CellProtected **list_protected = read_protected(FILE_PENDING_VOTES);
+  if (!b_racine)
+    exit(12);
+
+  b_racine->author = author;
+  b_racine->hash = NULL;
+  b_racine->previous_hash = NULL;
+  b_racine->votes = *list_protected;
+  b_racine->nonce = 0;
+
+  remove(FILE_PENDING_VOTES);
+  compute_proof_of_work(b_racine, d);
+  write_block(FILE_PENDING_BLOCK, b_racine);
+  tree = create_node(b_racine);
+  // print_tree(tree);
+
+  return tree;
+}
+
 void add_block(int d, char *name)
 {
   Block *b = read_block(FILE_PENDING_BLOCK);
@@ -136,11 +159,13 @@ CellTree *read_tree()
     if (dir->d_type == DT_REG)
     {
       // recuperation du block
-      char tmp[255];
+      char tmp[255], *path;
       strcpy(tmp, DIR_BLOCKCHAIN);
-      tmp[strlen(tmp) - 1] = '\0';
+      path = strcat(tmp, dir->d_name);
 
-      Block *b = read_block(strcat(tmp, dir->d_name));
+      Block *b = read_block(path);
+      // char *str_b = block_to_str(b);
+      // printf("%s\n", str_b);
       // creation du noeud associé
       CellTree *ct = create_node(b);
       // stockage dans le tableau
@@ -196,29 +221,6 @@ Key *compute_winner_BT(CellTree *tree, CellKey *candidates, CellKey *voters, int
   // ----------ETAPE 3: Declaration du vainqueur de l'election----------
   Key *res = compute_winner(*list_decla, candidates, voters, sizeC, sizeV);
   return res;
-}
-
-CellTree *init_tree(Key *author, int d)
-{
-  CellTree *tree = NULL;
-  Block *b_racine = (Block *)malloc(sizeof(Block));
-  CellProtected **list_protected = read_protected(FILE_PENDING_VOTES);
-  if (!b_racine)
-    exit(12);
-
-  b_racine->author = author;
-  b_racine->hash = NULL;
-  b_racine->previous_hash = NULL;
-  b_racine->votes = *list_protected;
-  b_racine->nonce = 0;
-
-  remove(FILE_PENDING_VOTES);
-  compute_proof_of_work(b_racine, d);
-  write_block(FILE_PENDING_BLOCK, b_racine);
-  tree = create_node(b_racine);
-  // print_tree(tree);
-
-  return tree;
 }
 
 char *generate_uuid()

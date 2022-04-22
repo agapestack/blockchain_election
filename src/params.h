@@ -19,8 +19,8 @@
 #define NB_TEST_EX3 1000
 
 // EXERCICE 4
-#define NB_KEYS 200    // Nombre de personnes enregistre aux elections / declaration de vote
-#define NB_CANDIDATS 4 // Nombre de candidats parmis les personnes enregistre
+#define NB_KEYS 2000    // Nombre de personnes enregistre aux elections / declaration de vote
+#define NB_CANDIDATS 12 // Nombre de candidats parmis les personnes enregistre
 
 // EXERCICE 6
 #define NB_TEST_FINDPOSITION 20
@@ -31,7 +31,7 @@
 #define FILE_TEST_DECLARATIONS "./data/test_ex8_declarations.txt"
 
 // EXERCICE 9
-#define MOCK_NB_VOTERS 50
+#define MOCK_NB_VOTERS 30
 #define MOCK_NB_CANDIDATS 2
 #define NB_VOTE_PER_BLOCK 10
 #define D_VALUE 2
