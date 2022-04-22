@@ -76,11 +76,11 @@ int main(void)
   delete_tree(t);
 
   printf("----------END TEST READ TREE----------\n");
-  printf("----------START COMPUTE WINNER TREE----------\n");
+  // printf("----------START COMPUTE WINNER TREE----------\n");
 
-  Key *winner = compute_winner_BT(t, *list_cand, *list_voters, MOCK_NB_CANDIDATS, MOCK_NB_VOTERS);
+  // Key *winner = compute_winner_BT(t, *list_cand, *list_voters, MOCK_NB_CANDIDATS, MOCK_NB_VOTERS);
 
-  printf("----------END COMPUTE WINNER TREE----------\n\n\n");
+  // printf("----------END COMPUTE WINNER TREE----------\n\n\n");
 
   delete_tree_v2(tree);
   delete_list_protected(list_decla);
