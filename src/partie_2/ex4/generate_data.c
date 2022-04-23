@@ -5,6 +5,7 @@
 
 #include "./generate_data.h"
 
+// renvoie 0 si val n'est pas dans tab 1 sinon
 int is_in(int* tab, int val, int size) {
   for(int i=0; i < size; i++) {
     if(tab[i] == val)

@@ -151,6 +151,8 @@ void print_list_protected(CellProtected *lp)
 
 void delete_cell_protected(CellProtected *c)
 {
+  if(!c)
+    return;
   free_protected(c->data);
   free(c);
 

@@ -16,6 +16,7 @@ typedef struct cellProtected {
 CellKey* create_cell_key(Key* key);
 void inserer_key(CellKey** list_keys, Key* key);
 CellKey** read_public_keys(char *fic); 
+
 void print_list_keys(CellKey *LCK); 
 void delete_cell_key(CellKey *ck); 
 void delete_list_keys(CellKey **lk); 

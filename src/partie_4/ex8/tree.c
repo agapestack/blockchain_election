@@ -139,7 +139,6 @@ void delete_tree(CellTree *ct)
 
   firstBro = ct->nextBro;
   firstChild = ct->firstChild;
-
   // supression du blcok associe a ct
   delete_tree_cell(ct);
   // appel recursif sur le premier frere et le premier fils

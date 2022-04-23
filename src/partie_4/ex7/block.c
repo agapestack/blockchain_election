@@ -11,6 +11,7 @@
 
 void delete_block(Block *b)
 {
+
   free(b->author);
   free(b->hash);
   free(b->previous_hash);
@@ -21,6 +22,7 @@ void delete_block(Block *b)
     b->votes = b->votes->next;
     delete_cell_protected(tmp);
   }
+
   free(b);
 }
 
@@ -28,8 +30,9 @@ void delete_block_v2(Block *b)
 {
   free(b->hash);
   free(b->previous_hash);
-
   free(b);
+
+  return;
 }
 
 void write_block(char *file_name, Block *b)
@@ -133,7 +136,7 @@ Block *read_block(char *file_name)
     pr = str_to_protected(buffer);
     inserer_protected(res, pr);
   }
-  // pour eviter un bug de doublon: 
+  // pour eviter un bug de doublon:
   CellProtected *to_del = *res;
   *res = (*res)->next;
   delete_cell_protected(to_del);
