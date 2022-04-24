@@ -5,7 +5,6 @@
 >Le projet consiste a mettre en place un système électoral sur la blockchain.
 
 [Github](https://github.com/agapestack/DS-03)
-[Diagramme Projet](./assets/Diagramme%20Projet.pdf)
 
 >Toutes les instructions relatives à l'utilisation du code se trouvent dans le README
 
@@ -17,7 +16,7 @@
 
 ## Description globale
 
-[description globale](./assets/Diagramme_Projet.pdf)
+[Diagramme Projet](./assets/Diagramme%20Projet.pdf)
 
 ## Principe du RSA
 
