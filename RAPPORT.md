@@ -29,7 +29,10 @@
 
 ## Système de vote centralisée
 
+<center><img src="./assets/Systeme_Centralise_Schema.jpg"/></center>
+
 ## Système de vote décentralisée (blockchain)
+<center><img src="./assets/Blockchain_Schema.jpg"/></center>
 
 ## Bugs et Problemes
 
