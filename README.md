@@ -1,7 +1,5 @@
 # Projet: Blockchain appliquée à un processus éléctoral
 
-> Attention l'ex9 se lance via simulation.sh et non run.sh (besoin de nettoyer les données)
-
 ## Arborescence du projet
 
 ```c
